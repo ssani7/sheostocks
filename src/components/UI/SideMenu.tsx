@@ -114,7 +114,7 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
-			<AppBar position="fixed" open={open}>
+			<AppBar className="!shadow-md" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 0' }} position="fixed" open={open}>
 				<Toolbar>
 					<IconButton
 						color="inherit"
@@ -133,7 +133,7 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 				</Toolbar>
 			</AppBar>
 			<Drawer variant="permanent" open={open}>
-				<DrawerHeader>
+				<DrawerHeader className="!min-h-[80px]">
 					<IconButton onClick={handleDrawerClose}>{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
 				</DrawerHeader>
 				<Divider />
