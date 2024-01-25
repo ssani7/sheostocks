@@ -1,8 +1,12 @@
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MailIcon from '@mui/icons-material/Mail';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import Products from '@mui/icons-material/Inventory2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
+import SalesIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Tooltip } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,14 +26,14 @@ import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
-const menuOptions = [{ text: 'Dashboard', link: '/' }];
+const menuOptions = [{ text: 'Dashboard', link: '/', icon: <DashboardOutlinedIcon /> }];
 const productOptions = [
-	{ text: 'All Products', link: '/products' },
-	{ text: 'Add Products', link: '/products/add' },
+	{ text: 'All Products', link: '/products', icon: <Products /> },
+	{ text: 'Add Products', link: '/products/add', icon: <AddBoxOutlinedIcon /> },
 ];
 const saleOptions = [
-	{ text: 'Sales', link: '/sales' },
-	{ text: 'Make a Sale', link: '/products/sell' },
+	{ text: 'Sales', link: '/sales', icon: <SalesIcon /> },
+	{ text: 'Make a Sale', link: '/products/sell', icon: <SellOutlinedIcon /> },
 ];
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -138,7 +142,7 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 				</DrawerHeader>
 				<Divider />
 				<List>
-					{menuOptions.map(({ text, link }, index) => (
+					{menuOptions.map(({ text, link, icon }) => (
 						<Link key={text} to={link}>
 							<ListItem disablePadding sx={{ display: 'block' }}>
 								<ListItemButton
@@ -147,14 +151,16 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 										justifyContent: open ? 'initial' : 'center',
 										px: 2.5,
 									}}>
-									<ListItemIcon
-										sx={{
-											minWidth: 0,
-											mr: open ? 3 : 'auto',
-											justifyContent: 'center',
-										}}>
-										{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-									</ListItemIcon>
+									<Tooltip title={!open && text} placement="right" arrow>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open ? 3 : 'auto',
+												justifyContent: 'center',
+											}}>
+											{icon}
+										</ListItemIcon>
+									</Tooltip>
 									<ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
 								</ListItemButton>
 							</ListItem>
@@ -164,7 +170,7 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 				<Divider />
 				<List>
 					{open && <p className="px-5 py-2">Products</p>}
-					{productOptions.map(({ text, link }, index) => (
+					{productOptions.map(({ text, link, icon }) => (
 						<Link key={text} to={link}>
 							<ListItem disablePadding sx={{ display: 'block' }}>
 								<ListItemButton
@@ -173,14 +179,16 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 										justifyContent: open ? 'initial' : 'center',
 										px: 2.5,
 									}}>
-									<ListItemIcon
-										sx={{
-											minWidth: 0,
-											mr: open ? 3 : 'auto',
-											justifyContent: 'center',
-										}}>
-										{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-									</ListItemIcon>
+									<Tooltip title={!open && text} placement="right" arrow>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open ? 3 : 'auto',
+												justifyContent: 'center',
+											}}>
+											{icon}
+										</ListItemIcon>
+									</Tooltip>
 									<ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
 								</ListItemButton>
 							</ListItem>
@@ -190,7 +198,7 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 				<Divider />
 				<List>
 					{open && <p className="px-5 py-2">Sales</p>}
-					{saleOptions.map(({ text, link }, index) => (
+					{saleOptions.map(({ text, link, icon }) => (
 						<Link key={text} to={link}>
 							<ListItem disablePadding sx={{ display: 'block' }}>
 								<ListItemButton
@@ -199,14 +207,16 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 										justifyContent: open ? 'initial' : 'center',
 										px: 2.5,
 									}}>
-									<ListItemIcon
-										sx={{
-											minWidth: 0,
-											mr: open ? 3 : 'auto',
-											justifyContent: 'center',
-										}}>
-										{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-									</ListItemIcon>
+									<Tooltip title={!open && text} placement="right" arrow>
+										<ListItemIcon
+											sx={{
+												minWidth: 0,
+												mr: open ? 3 : 'auto',
+												justifyContent: 'center',
+											}}>
+											{icon}
+										</ListItemIcon>
+									</Tooltip>
 									<ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
 								</ListItemButton>
 							</ListItem>
@@ -214,7 +224,7 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 					))}
 				</List>
 			</Drawer>
-			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+			<Box component="main" sx={{ p: 3, width: '100%' }}>
 				<DrawerHeader />
 				{children}
 			</Box>

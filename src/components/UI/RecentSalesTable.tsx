@@ -1,11 +1,12 @@
+import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import moment from 'moment';
 import * as React from 'react';
 
 interface Column {
@@ -28,6 +29,11 @@ const columns: readonly Column[] = [
 		label: 'Amount',
 	},
 	{
+		id: 'date',
+		label: 'Date',
+		minWidth: 150,
+	},
+	{
 		id: 'status',
 		label: 'Status',
 	},
@@ -42,7 +48,9 @@ const columns: readonly Column[] = [
 // }
 
 function createData(name: string, id: string, model: string | number, amount: number, status: string) {
-	return { name, id, model, amount, status };
+	const date = new Date();
+	const formattedDate = moment(date).format('MMM Do, YYYY');
+	return { name, id, model, amount, date: formattedDate, status };
 }
 
 const rows: any = [
@@ -77,8 +85,8 @@ export default function RecentSalesTable() {
 	};
 
 	return (
-		<Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none' }}>
-			<TableContainer sx={{ maxHeight: 440 }}>
+		<Paper sx={{ boxShadow: 'none', width: '100%' }}>
+			<TableContainer sx={{ maxHeight: 440, overflowX: 'auto' }}>
 				<Table stickyHeader aria-label="sticky table">
 					<TableHead>
 						<TableRow>

@@ -1,13 +1,21 @@
+import { useMediaQuery } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import MiniDrawer from '../components/UI/SideMenu';
+import ResponsiveDrawer from '../components/UI/TemporaryDrawer';
 
 const MainPage = () => {
+	const ismobile = useMediaQuery('(max-width:730px)');
 	return (
 		<div>
-			<nav>Navbar</nav>
-			<MiniDrawer>
-				<Outlet />
-			</MiniDrawer>
+			{ismobile ? (
+				<ResponsiveDrawer>
+					<Outlet />
+				</ResponsiveDrawer>
+			) : (
+				<MiniDrawer>
+					<Outlet />
+				</MiniDrawer>
+			)}
 		</div>
 	);
 };

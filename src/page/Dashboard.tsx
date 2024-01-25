@@ -55,7 +55,7 @@ const data = [
 
 const Dashboard = () => {
 	return (
-		<div>
+		<div className="w-full">
 			<div className="grid grid-cols-2 gap-6 xl:grid-cols-4 pt-2">
 				<InfoCard icon={<SalesIcon htmlColor="#6466e9" className="!text-5xl" />} title="Sales" value={3230} />
 				<InfoCard icon={<PurchaseIcon htmlColor="#6466e9" className="!text-5xl" />} title="Purchase" value={2450} />
