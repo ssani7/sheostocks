@@ -169,7 +169,7 @@ export default function ResponsiveDrawer(props: Props) {
 					{drawer}
 				</Drawer>
 			</Box>
-			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+			<Box component="main" sx={{ p: 3, width: '100%' }}>
 				<Toolbar />
 				{props.children}
 			</Box>

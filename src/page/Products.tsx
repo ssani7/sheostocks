@@ -2,7 +2,7 @@ import ProductsTable from '../components/UI/ProductsTable';
 
 const Products = () => {
 	return (
-		<div>
+		<div className="w-full">
 			<ProductsTable />
 		</div>
 	);

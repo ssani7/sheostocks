@@ -321,8 +321,8 @@ export default function ProductsTable() {
 	const visibleRows = React.useMemo(() => stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage), [order, orderBy, page, rowsPerPage]);
 
 	return (
-		<Box sx={{ maxWidth: '100%', overflow: 'hidden' }}>
-			<Paper sx={{ width: '100%', mb: 2, overflow: 'hidden' }}>
+		<div>
+			<Paper sx={{ width: '100%', mb: 2 }}>
 				<EnhancedTableToolbar numSelected={selected.length} setSelected={setSelected} />
 				<TableContainer sx={{ overflowX: 'auto' }}>
 					<Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
@@ -389,6 +389,6 @@ export default function ProductsTable() {
 				/>
 			</Paper>
 			<FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label="Dense padding" />
-		</Box>
+		</div>
 	);
 }
