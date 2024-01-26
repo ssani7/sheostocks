@@ -1,16 +1,17 @@
+import CloudUpload from '@mui/icons-material/CloudUploadOutlined';
 import { OutlinedInput } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 const productData = [
-	{ title: 'Product Name' },
-	{ title: 'Brand' },
-	{ title: 'Category' },
-	{ title: 'Price' },
-	{ title: 'Quantity' },
-	{ title: 'Alert Quantity' },
-	{ title: 'Size' },
-	{ title: 'Color' },
+	{ title: 'Product Name', placeholder: 'Enter Product Name' },
+	{ title: 'Brand', placeholder: 'Enter brand name' },
+	{ title: 'Category', placeholder: 'Choose a category' },
+	{ title: 'Price', placeholder: 'Enter Product Price' },
+	{ title: 'Quantity', placeholder: 'Enter Product Quantity' },
+	{ title: 'Stock Alert', placeholder: '0' },
+	{ title: 'Size', placeholder: 'Choose product size' },
+	{ title: 'Color', placeholder: 'Enter color' },
 ];
 
 const ProductForm = () => {
@@ -38,6 +39,7 @@ const ProductForm = () => {
 						<div>
 							<p className="mb-2 text-sm">{p.title}</p>
 							<OutlinedInput
+								placeholder={p.placeholder}
 								sx={{
 									'& .MuiOutlinedInput-notchedOutline': { border: 'white' },
 								}}
@@ -46,23 +48,32 @@ const ProductForm = () => {
 						</div>
 					))}
 				</div>
-				<div className="xl:w-[20%]">
-					<div {...getRootProps()}>
-						<input accept="image/png" {...getInputProps()} />
-						{isDragActive ? <p>Drop the files here ...</p> : <p>Drag 'n' drop some files here, or click to select files</p>}
-					</div>
+				<div className="xl:w-[20%] mt-6">
+					<p className="mb-2">Add Image to Product</p>
+					<div className="bg-white rounded-lg p-6">
+						<div {...getRootProps()}>
+							<input {...getInputProps()} />
 
-					{preview && (
-						<p className="mt-6 h-fit w-80 mx-auto p-2 rounded-lg bg-white">
-							<img className="w-full h-full object-contain my-auto" src={preview as string} alt="Upload preview" />
-						</p>
-					)}
+							<div className={`${isDragActive && 'bg-[#6466e9] !text-white'} border rounded-lg px-8 py-8 flex flex-col gap-2 items-center justify-center`}>
+								<CloudUpload sx={{ height: 80, width: 80 }} />
+								<p>Drag and Drop image here or</p>
+								<p className={`${isDragActive ? 'text-white' : 'text-[#6466e9]'} font-semibold`}>Select</p>
+							</div>
+						</div>
+
+						{preview && (
+							<div className="mt-6 h-fit w-full mx-auto p-2 rounded-lg bg-white">
+								<img className="w-full h-full object-contain my-auto rounded-lg" src={preview as string} alt="Upload preview" />
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 			<div className="mt-6">
 				<p className="mb-2 text-sm">Description</p>
 				<OutlinedInput
 					multiline
+					placeholder="Add a note"
 					rows={6}
 					sx={{
 						'& .MuiOutlinedInput-notchedOutline': { border: 'white' },
