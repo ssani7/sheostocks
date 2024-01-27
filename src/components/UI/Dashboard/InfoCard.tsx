@@ -7,9 +7,10 @@ type InfoCardProps = {
 	icon: ReactNode;
 	title: string;
 	value: number | string;
+	isNum?: boolean;
 };
 
-const InfoCard = ({ icon, title, value }: InfoCardProps) => {
+const InfoCard = ({ icon, title, value, isNum }: InfoCardProps) => {
 	const USDollar = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
@@ -22,7 +23,7 @@ const InfoCard = ({ icon, title, value }: InfoCardProps) => {
 					{title}
 				</Typography>
 				<Typography fontWeight={600} variant="h5" color="black">
-					{USDollar.format(Number(value))}
+					{isNum ? value : USDollar.format(Number(value))}
 				</Typography>
 			</CardContent>
 		</Card>

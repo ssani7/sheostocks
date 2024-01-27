@@ -35,7 +35,7 @@ const ProductForm = () => {
 			<div className="flex flex-col xl:flex-row gap-6">
 				<div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6 xl:w-[75%]">
 					{productData.map((p) => (
-						<div>
+						<div key={p.title}>
 							<p className="mb-2 text-sm">{p.title}</p>
 							<OutlinedInput
 								sx={{
