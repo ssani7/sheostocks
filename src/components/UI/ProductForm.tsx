@@ -1,5 +1,5 @@
 import CloudUpload from '@mui/icons-material/CloudUploadOutlined';
-import { OutlinedInput } from '@mui/material';
+import { Button, OutlinedInput } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
@@ -69,7 +69,7 @@ const ProductForm = () => {
 					</div>
 				</div>
 			</div>
-			<div className="mt-6">
+			<div className="my-6">
 				<p className="mb-2 text-sm">Description</p>
 				<OutlinedInput
 					multiline
@@ -81,6 +81,9 @@ const ProductForm = () => {
 					className="w-full bg-white border-0"
 				/>
 			</div>
+			<Button sx={{ bgcolor: '#6466e9', fontWeight: 600, '&:hover': { bgcolor: '#6466e9' } }} variant="contained">
+				Add Product
+			</Button>
 		</div>
 	);
 };
