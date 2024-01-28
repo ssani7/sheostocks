@@ -171,7 +171,7 @@ const SellProduct = () => {
 				<SellProductTable selected={selected} setSelected={setSelected} />
 			</div>
 
-			<Button onClick={makeSale} sx={{ bgcolor: '#6466e9', '&:hover': { bgcolor: '#6466e9' } }} variant="contained">
+			<Button onClick={makeSale} sx={{ bgcolor: '#6466e9', fontWeight: 600, '&:hover': { bgcolor: '#6466e9' } }} variant="contained">
 				Make Sale
 			</Button>
 		</div>

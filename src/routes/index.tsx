@@ -4,6 +4,7 @@ import AddProduct from '../page/AddProduct';
 import Dashboard from '../page/Dashboard';
 import Login from '../page/Login';
 import Products from '../page/Products';
+import Register from '../page/Register';
 import Sales from '../page/Sales';
 import SellProduct from '../page/SellProduct';
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
 	{
 		path: '/login',
 		element: <Login />,
+	},
+	{
+		path: '/register',
+		element: <Register />,
 	},
 ]);
 

@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from './api/dashboardInfoApi';
-// ...
+import userReducer from './features/user/userSlice';
 
 export const store = configureStore({
 	reducer: {
-		// stocks: stocksReducer
+		user: userReducer,
 		[api.reducerPath]: api.reducer,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),

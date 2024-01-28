@@ -5,8 +5,9 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import Products from '@mui/icons-material/Inventory2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import SalesIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Tooltip } from '@mui/material';
+import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,6 +24,7 @@ import Typography from '@mui/material/Typography';
 import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../redux/hooks';
 
 const drawerWidth = 240;
 
@@ -103,9 +105,17 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 	}),
 }));
 
+const settings = [
+	{ title: 'Dashboard', link: '/' },
+	{ title: 'Logout', link: '/login' },
+];
+
 export default function MiniDrawer({ children }: { children: React.ReactNode }) {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
+	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+	const { profilePhoto, name } = useAppSelector((state) => state.user);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -113,6 +123,14 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 
 	const handleDrawerClose = () => {
 		setOpen(false);
+	};
+
+	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorElUser(event.currentTarget);
+	};
+
+	const handleCloseUserMenu = () => {
+		setAnchorElUser(null);
 	};
 
 	return (
@@ -131,9 +149,49 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 						}}>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						ShoeStock.com
-					</Typography>
+					<div className="flex items-center justify-between w-full">
+						<Typography variant="h6" noWrap component="div">
+							ShoeStock.com
+						</Typography>
+						<Box sx={{ flexGrow: 0 }}>
+							<div className="flex items-center gap-3">
+								<Avatar alt="" src={profilePhoto || '/user.jpg'} />
+
+								<div>
+									<p className="font-bold">{name || 'Anonymous User'}</p>
+									<p className="text-sm">Admin</p>
+								</div>
+								<Tooltip title="Open settings">
+									<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+										<SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" />
+									</IconButton>
+								</Tooltip>
+							</div>
+							<Menu
+								sx={{ mt: '45px' }}
+								id="menu-appbar"
+								anchorEl={anchorElUser}
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								keepMounted
+								transformOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								open={Boolean(anchorElUser)}
+								onClose={handleCloseUserMenu}>
+								{settings.map((setting) => (
+									<MenuItem key={setting.title} onClick={handleCloseUserMenu}>
+										<Link to={setting.link}>
+											<Typography textAlign="center">{setting.title}</Typography>
+										</Link>
+									</MenuItem>
+								))}
+							</Menu>
+						</Box>
+					</div>
 				</Toolbar>
 			</AppBar>
 			<Drawer variant="permanent" open={open}>
