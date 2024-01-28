@@ -1,16 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const dashboardInfoAPI = createApi({
-	reducerPath: 'api/products',
-	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/info' }),
+export const api = createApi({
+	reducerPath: 'api',
+	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/' }),
 	tagTypes: ['dashboardInfo'],
 	endpoints: (builder) => ({
 		getCardInfo: builder.query({
-			query: () => '/cardInfo',
+			query: () => '/info/cardInfo',
 		}),
-		getProductByID: builder.query({
-			query: (id) => `/product/${id}`,
-		}),
+
 		getComments: builder.query({
 			query: (id) => `/comment/${id}`,
 			providesTags: ['dashboardInfo'],
@@ -26,4 +24,4 @@ export const dashboardInfoAPI = createApi({
 	}),
 });
 
-export const { useGetCardInfoQuery, useGetProductByIDQuery, useGetCommentsQuery, usePostCommentMutation } = dashboardInfoAPI;
+export const { useGetCardInfoQuery, useGetCommentsQuery, usePostCommentMutation } = api;

@@ -1,5 +1,5 @@
 export type IProduct = {
-	id: number;
+	id: string;
 	name: string;
 	quantity: number;
 	releaseDate: string;

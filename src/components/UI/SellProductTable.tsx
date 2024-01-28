@@ -13,29 +13,28 @@ import { ChangeEvent } from 'react';
 import { IProduct } from '../../types/Product';
 
 type SellTableProps = {
-	products: IProduct[];
-	setSelected: (_product: IProduct[]) => void;
+	selected: IProduct | null;
+	setSelected: (_product: IProduct | null) => void;
 };
 
-const SellProductTable = ({ products, setSelected }: SellTableProps) => {
-	const handleDeleteProduct = (product: IProduct) => {
-		const newProducts = products.filter((p) => p.name !== product.name);
-		setSelected(newProducts);
+const SellProductTable = ({ selected, setSelected }: SellTableProps) => {
+	const handleDeleteProduct = () => {
+		setSelected(null);
 	};
 
-	const handleQuantity = (index: number, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		const productsCopy = [...products];
-		productsCopy[index].quantity = Number(e.target.value);
-		setSelected(productsCopy);
+	const handleQuantity = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		if (!selected) return;
+
+		setSelected({ ...selected, quantity: Number(e.target.value) });
 	};
 
-	return products?.length ? (
+	return selected ? (
 		<TableContainer component={Paper}>
 			<Table sx={{ width: '100%' }} aria-label="simple table">
 				<TableHead>
 					<TableRow>
 						<TableCell>Product Name</TableCell>
-						<TableCell align="right">ID</TableCell>
+						<TableCell align="center">ID</TableCell>
 						<TableCell align="right">Unit Cost</TableCell>
 						<TableCell align="center">Quantity</TableCell>
 						<TableCell align="right">Subtotal</TableCell>
@@ -43,26 +42,24 @@ const SellProductTable = ({ products, setSelected }: SellTableProps) => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{products?.map((row: any, i: number) => (
-						<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-							<TableCell component="th" scope="row">
-								{row.name}
-							</TableCell>
-							<TableCell align="right">{i}</TableCell>
-							<TableCell align="right">{row.price}</TableCell>
-							<TableCell align="center">
-								<div className=" w-fit mx-auto">
-									<MinusIcon />
-									<OutlinedInput type="number" onChange={(e) => handleQuantity(i, e)} defaultValue={row.quantity} className="mx-5 w-fit max-w-20" />
-									<PlusIcon />
-								</div>
-							</TableCell>
-							<TableCell align="right">{(row.price * row.quantity).toFixed(2)}</TableCell>
-							<TableCell align="center">
-								<CancelOutlinedIcon onClick={() => handleDeleteProduct(row)} className="cursor-pointer" htmlColor="red" />
-							</TableCell>
-						</TableRow>
-					))}
+					<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+						<TableCell component="th" scope="row">
+							{selected.name}
+						</TableCell>
+						<TableCell align="center">{selected.id}</TableCell>
+						<TableCell align="right">{selected.price}</TableCell>
+						<TableCell align="center">
+							<div className=" w-fit mx-auto">
+								<MinusIcon />
+								<OutlinedInput type="number" onChange={(e) => handleQuantity(e)} defaultValue={selected.quantity} className="mx-5 w-fit max-w-20" />
+								<PlusIcon />
+							</div>
+						</TableCell>
+						<TableCell align="right">{(selected.price * selected.quantity).toFixed(2)}</TableCell>
+						<TableCell align="center">
+							<CancelOutlinedIcon onClick={() => handleDeleteProduct()} className="cursor-pointer" htmlColor="red" />
+						</TableCell>
+					</TableRow>
 				</TableBody>
 			</Table>
 		</TableContainer>
