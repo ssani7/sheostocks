@@ -55,7 +55,7 @@ const LoginForm = () => {
 					/>
 				</div>
 
-				{isError && <p className="text-sm text-center mt-2 text-red-600">{JSON.stringify(error?.status) || 'Something went wrong'}</p>}
+				{isError && <p className="text-sm text-center mt-2 text-red-600">{JSON.stringify(error?.data.message) || 'Something went wrong'}</p>}
 
 				<p className="text-sm font-light text-center mt-5">
 					Don’t have an account?{' '}

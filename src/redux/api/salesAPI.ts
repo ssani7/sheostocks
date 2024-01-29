@@ -5,6 +5,9 @@ export const saleAPI = api.injectEndpoints({
 		getRecentSales: builder.query({
 			query: () => '/sale/recent-sales',
 		}),
+		getSaleByCategory: builder.query({
+			query: (category) => `/sale/${category}`,
+		}),
 		makeSale: builder.mutation({
 			query: ({ saleData }) => ({
 				url: `/sale/make-sale`,
@@ -16,4 +19,4 @@ export const saleAPI = api.injectEndpoints({
 	}),
 });
 
-export const { useGetRecentSalesQuery, useMakeSaleMutation } = saleAPI;
+export const { useGetRecentSalesQuery, useMakeSaleMutation, useGetSaleByCategoryQuery } = saleAPI;

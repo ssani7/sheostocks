@@ -1,17 +1,23 @@
 import CloudUpload from '@mui/icons-material/CloudUploadOutlined';
-import { Button, OutlinedInput } from '@mui/material';
+import { Backdrop, Button, CircularProgress, OutlinedInput } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { toast } from 'react-toastify';
+import { useMakePurchaseMutation } from '../../redux/features/purchase/purchaseAPI';
+import { resetProduct, setProduct } from '../../redux/features/purchase/purchaseSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const productData = [
-	{ title: 'Product Name', placeholder: 'Enter Product Name' },
-	{ title: 'Brand', placeholder: 'Enter brand name' },
-	{ title: 'Category', placeholder: 'Choose a category' },
-	{ title: 'Price', placeholder: 'Enter Product Price' },
-	{ title: 'Quantity', placeholder: 'Enter Product Quantity' },
-	{ title: 'Stock Alert', placeholder: '0' },
-	{ title: 'Size', placeholder: 'Choose product size' },
-	{ title: 'Color', placeholder: 'Enter color' },
+	{ title: 'Product Name', placeholder: 'Enter Product Name', name: 'name' },
+	{ title: 'Brand', placeholder: 'Enter brand name', name: 'brand' },
+	{ title: 'Model', placeholder: 'Enter Model name', name: 'model' },
+	{ title: 'Category', placeholder: 'Choose a category', name: 'style' },
+	{ title: 'Price', placeholder: 'Enter Product Price', name: 'price', isNum: true },
+	{ title: 'Quantity', placeholder: 'Enter Product Quantity', name: 'quantity', isNum: true },
+	{ title: 'Stock Alert', placeholder: '0', name: 'stock_alert', isNum: true },
+	{ title: 'Size', placeholder: 'Choose product size', name: 'size' },
+	{ title: 'Color', placeholder: 'Enter color', name: 'color' },
+	{ title: 'Material', placeholder: 'Enter material', name: 'material' },
 ];
 
 const ProductForm = () => {
@@ -29,7 +35,43 @@ const ProductForm = () => {
 		reader.readAsDataURL(acceptedFiles[0]);
 	}, []);
 
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({ onDrop });
+
+	const dispatch = useAppDispatch();
+	const [makePurchase, { isLoading, isSuccess, isError, error, reset }] = useMakePurchaseMutation();
+
+	if (isSuccess) {
+		dispatch(resetProduct());
+		reset();
+		toast.success('Purchase made successfully');
+	}
+	if (isError) {
+		reset();
+		toast.error(error?.data?.message);
+	}
+
+	const purchaseData = useAppSelector((state) => state.purchase);
+
+	async function handleOnSubmit(e: React.SyntheticEvent) {
+		e.preventDefault();
+
+		if (typeof acceptedFiles[0] === 'undefined') return;
+
+		const formData = new FormData();
+
+		formData.append('file', acceptedFiles[0]);
+		formData.append('upload_preset', 'shoe_stocks');
+		formData.append('api_key', import.meta.env.VITE_CLOUDINARY_API_KEY);
+
+		const results = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`, {
+			method: 'POST',
+			body: formData,
+		}).then((r) => r.json());
+
+		dispatch(setProduct({ image: results.url }));
+
+		await makePurchase({ purchaseData });
+	}
 
 	return (
 		<div>
@@ -39,6 +81,8 @@ const ProductForm = () => {
 						<div key={p.title}>
 							<p className="mb-2 text-sm">{p.title}</p>
 							<OutlinedInput
+								type={p.isNum ? 'number' : 'text'}
+								onChange={(e) => dispatch(setProduct({ [p.name]: e.target.value }))}
 								placeholder={p.placeholder}
 								sx={{
 									'& .MuiOutlinedInput-notchedOutline': { border: 'white' },
@@ -81,9 +125,13 @@ const ProductForm = () => {
 					className="w-full bg-white border-0"
 				/>
 			</div>
-			<Button sx={{ bgcolor: '#6466e9', fontWeight: 600, '&:hover': { bgcolor: '#6466e9' } }} variant="contained">
+			<Button onClick={handleOnSubmit} sx={{ bgcolor: '#6466e9', fontWeight: 600, '&:hover': { bgcolor: '#6466e9' } }} variant="contained">
 				Add Product
 			</Button>
+
+			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 		</div>
 	);
 };

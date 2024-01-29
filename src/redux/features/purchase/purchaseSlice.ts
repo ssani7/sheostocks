@@ -1,0 +1,67 @@
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+interface ProductPurchaseState {
+	name: string;
+	quantity: number;
+	releaseDate: Date | null;
+	brand: string;
+	model: string;
+	style: string;
+	color: string;
+	price: number;
+	image: string;
+	material: string;
+	stock_alert: number;
+}
+
+const initialState: ProductPurchaseState = {
+	name: '',
+	quantity: 0,
+	releaseDate: null,
+	brand: '',
+	model: '',
+	style: '',
+	color: '',
+	price: 0,
+	image: '',
+	material: '',
+	stock_alert: 0,
+};
+
+export const productReducer = createSlice({
+	name: 'user',
+	initialState,
+	reducers: {
+		setProduct: (state, action: PayloadAction<Partial<ProductPurchaseState>>) => {
+			state.name = action.payload.name || state.name;
+			state.quantity = Number(action.payload.quantity) || state.quantity;
+			state.stock_alert = Number(action.payload.stock_alert) || state.quantity;
+			state.releaseDate = action.payload.releaseDate || state.releaseDate;
+			state.brand = action.payload.brand || state.brand;
+			state.model = action.payload.model || state.model;
+			state.style = action.payload.style || state.style;
+			state.color = action.payload.color || state.color;
+			state.price = Number(action.payload.price) || state.price;
+			state.image = action.payload.image || state.image;
+			state.material = action.payload.material || state.material;
+		},
+		resetProduct: (state) => {
+			state.name = '';
+			state.quantity = 0;
+			state.stock_alert = 0;
+			state.releaseDate = null;
+			state.brand = '';
+			state.model = '';
+			state.style = '';
+			state.color = '';
+			state.price = 0;
+			state.image = '';
+			state.material = '';
+		},
+	},
+});
+
+export const { setProduct, resetProduct } = productReducer.actions;
+
+export default productReducer.reducer;
