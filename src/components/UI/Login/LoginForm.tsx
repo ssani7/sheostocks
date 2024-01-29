@@ -7,12 +7,12 @@ const LoginForm = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
-	const [loginUser, { isSuccess, isLoading, isError, error }] = useLoginUserMutation();
+	const [loginUser, { isSuccess, isLoading, isError, error, data }] = useLoginUserMutation();
 	const errorMessage = (error as any)?.data?.message || '';
 	const navigate = useNavigate();
 
 	if (isSuccess) {
-		localStorage.setItem('userEmail', email);
+		localStorage.setItem('user-auth', data?.data?.token);
 		navigate('/');
 	}
 

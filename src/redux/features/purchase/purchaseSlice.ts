@@ -34,11 +34,11 @@ const initialState: ProductPurchaseState = {
 };
 
 export const productReducer = createSlice({
-	name: 'user',
+	name: 'product',
 	initialState,
 	reducers: {
 		setProduct: (state, action: PayloadAction<Partial<ProductPurchaseState>>) => {
-			state._id = action.payload._id || state._id;
+			state._id = action.payload?._id || state?._id || '';
 			state.name = action.payload.name || state.name;
 			state.quantity = Number(action.payload.quantity) || state.quantity;
 			state.stock_alert = Number(action.payload.stock_alert) || state.quantity;

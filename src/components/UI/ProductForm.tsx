@@ -43,7 +43,10 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 	const [updateProduct, { isLoading: isUpdating, isSuccess: isUpdateSuccess, isError: isUpateError, error: updateError, reset: resetUpdate }] = useUpdateProductMutation();
 
 	if (isSuccess || isUpdateSuccess) {
-		dispatch(resetProduct());
+		if (!isUpdate) {
+			dispatch(resetProduct());
+			setPreview(null);
+		}
 		reset();
 		resetUpdate();
 		toast.success('Purchase made successfully');
@@ -75,8 +78,8 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 
 		dispatch(setProduct({ image: results.url }));
 
-		if (isUpdate) await updateProduct({ id: purchaseData._id, purchaseData });
-		else await makePurchase({ purchaseData });
+		if (isUpdate) await updateProduct({ productData: { ...purchaseData, image: results.url } });
+		else await makePurchase({ purchaseData: { ...purchaseData, image: results.url } });
 	}
 
 	return (
@@ -105,16 +108,16 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 						<div {...getRootProps()}>
 							<input {...getInputProps()} />
 
-							<div className={`${isDragActive && 'bg-[#6466e9] !text-white'} border rounded-lg px-8 py-8 flex flex-col gap-2 items-center justify-center`}>
+							<div className={`${isDragActive && 'bg-[#6466e9] !text-white'} border rounded-lg px-8 py-8 flex flex-col gap-2 items-center justify-center cursor-pointer`}>
 								<CloudUpload sx={{ height: 80, width: 80 }} />
 								<p>Drag and Drop image here or</p>
 								<p className={`${isDragActive ? 'text-white' : 'text-[#6466e9]'} font-semibold`}>Select</p>
 							</div>
 						</div>
 
-						{preview && (
+						{(isUpdate || preview) && (
 							<div className="mt-6 h-fit w-full mx-auto p-2 rounded-lg bg-white">
-								<img className="w-full h-full object-contain my-auto rounded-lg" src={preview as string} alt="Upload preview" />
+								<img className="w-full h-full object-contain my-auto rounded-lg" src={isUpdate && !preview ? purchaseData.image : (preview as string)} alt="Upload preview" />
 							</div>
 						)}
 					</div>

@@ -21,7 +21,7 @@ const ProductsTable = () => {
 	// const [filter, setFilter] = useState({ name: '', price: 0, brand: '' });
 	const filter = useAppSelector((state) => state.productFilter);
 
-	const { data } = useGetProductsByFilterQuery(filter);
+	const { data } = useGetProductsByFilterQuery(filter, { refetchOnMountOrArgChange: true, pollingInterval: 30000 });
 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);

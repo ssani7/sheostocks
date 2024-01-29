@@ -29,7 +29,7 @@ export const productsAPI = api.injectEndpoints({
 				method: 'PUT',
 				body: productData,
 			}),
-			// invalidatesTags: ['dashboardInfo'],
+			invalidatesTags: ['productsList'],
 		}),
 	}),
 });
