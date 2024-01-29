@@ -8,6 +8,7 @@ const LoginForm = () => {
 	const [password, setPassword] = useState<string>('');
 
 	const [loginUser, { data, isLoading, isError, error }] = useLoginUserMutation();
+	const errorMessage = (error as any).data.message;
 	const navigate = useNavigate();
 
 	if (data?.status === true) {
@@ -55,7 +56,7 @@ const LoginForm = () => {
 					/>
 				</div>
 
-				{isError && <p className="text-sm text-center mt-2 text-red-600">{JSON.stringify(error?.data.message) || 'Something went wrong'}</p>}
+				{isError && <p className="text-sm text-center mt-2 text-red-600">{JSON.stringify(errorMessage) || 'Something went wrong'}</p>}
 
 				<p className="text-sm font-light text-center mt-5">
 					Don’t have an account?{' '}

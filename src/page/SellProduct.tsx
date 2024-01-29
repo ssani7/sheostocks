@@ -28,7 +28,7 @@ const SellProduct = () => {
 	if (isError) {
 		// dispatch(resetSaleState());
 		reset();
-		toast.error(error?.data?.message);
+		toast.error((error as any)?.data?.message);
 	}
 
 	// const [warehouse, setWarehouse] = useState('');

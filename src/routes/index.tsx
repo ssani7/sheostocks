@@ -7,7 +7,7 @@ import Products from '../page/Products';
 import Register from '../page/Register';
 import Sales from '../page/Sales';
 import SellProduct from '../page/SellProduct';
-import UpdateProduct from '../page/updateProduct';
+import UpdateProduct from '../page/UpdateProduct';
 
 const router = createBrowserRouter([
 	{

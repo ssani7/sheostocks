@@ -2,7 +2,7 @@ import { Input, Slider } from '@mui/material';
 import React from 'react';
 
 const PriceSlide = ({ value, setValue }: any) => {
-	const handleSliderChange = (event: Event, newValue: number | number[]) => {
+	const handleSliderChange = (_event: Event, newValue: number | number[]) => {
 		setValue(newValue as number);
 	};
 

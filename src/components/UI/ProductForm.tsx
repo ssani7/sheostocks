@@ -51,10 +51,11 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 	if (isError || isUpateError) {
 		reset();
 		resetUpdate();
-		toast.error(isError ? error?.data?.message : updateError?.data?.message);
+		const errorMessage = isError ? (error as any).data?.message : (updateError as any).data?.message;
+		toast.error(errorMessage);
 	}
 
-	const purchaseData = useAppSelector((state) => state.purchase);
+	const purchaseData: any = useAppSelector((state) => state.purchase);
 
 	async function handleOnSubmit(e: React.SyntheticEvent) {
 		e.preventDefault();

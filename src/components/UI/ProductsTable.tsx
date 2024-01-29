@@ -27,7 +27,7 @@ const ProductsTable = () => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 
-	const handleChangePage = (event: unknown, newPage: number) => {
+	const handleChangePage = (_event: unknown, newPage: number) => {
 		setPage(newPage);
 	};
 
@@ -46,7 +46,7 @@ const ProductsTable = () => {
 	}
 	if (isError) {
 		reset();
-		toast.error(error?.data?.message);
+		toast.error((error as any)?.data?.message);
 	}
 
 	const handleProductDelete = async (_id: string) => {
