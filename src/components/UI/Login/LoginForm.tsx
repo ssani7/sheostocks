@@ -7,11 +7,11 @@ const LoginForm = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
-	const [loginUser, { data, isLoading, isError, error }] = useLoginUserMutation();
-	const errorMessage = (error as any).data.message;
+	const [loginUser, { isSuccess, isLoading, isError, error }] = useLoginUserMutation();
+	const errorMessage = (error as any)?.data?.message || '';
 	const navigate = useNavigate();
 
-	if (data?.status === true) {
+	if (isSuccess) {
 		localStorage.setItem('userEmail', email);
 		navigate('/');
 	}
@@ -25,7 +25,7 @@ const LoginForm = () => {
 		}
 	};
 	return (
-		<div className="w-1/2 bg-white px-10">
+		<div className="lg:w-1/2 bg-white px-10">
 			<p className="text-2xl font-medium py-6 text-center">ShoeStocks.com</p>
 			<Divider />
 			<div className="pb-10">

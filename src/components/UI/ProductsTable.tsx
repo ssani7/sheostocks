@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDeleteProductMutation, useGetProductsByFilterQuery } from '../../redux/features/products/productsAPI';
 import { useAppSelector } from '../../redux/hooks';
@@ -19,10 +20,8 @@ import FilterPopup from './Products/FilterPopup';
 const ProductsTable = () => {
 	// const [filter, setFilter] = useState({ name: '', price: 0, brand: '' });
 	const filter = useAppSelector((state) => state.productFilter);
-	console.log('🚀 ~ ProductsTable ~ filter:', filter);
 
 	const { data } = useGetProductsByFilterQuery(filter);
-	console.log('🚀 ~ ProductsTable ~ data:', data);
 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -100,9 +99,11 @@ const ProductsTable = () => {
 										</IconButton>
 									</Tooltip>
 									<Tooltip title="Edit this product">
-										<IconButton aria-label="delete">
-											<EditIcon color="success" />
-										</IconButton>
+										<Link to={`/products/update/${row._id}`}>
+											<IconButton aria-label="update">
+												<EditIcon color="success" />
+											</IconButton>
+										</Link>
 									</Tooltip>
 									<Tooltip onClick={() => handleProductDelete(row._id)} title="Delete this product">
 										<IconButton aria-label="delete">

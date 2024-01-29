@@ -8,6 +8,7 @@ interface ProductPurchaseState {
 	releaseDate: Date | null;
 	brand: string;
 	model: string;
+	size: string;
 	style: string;
 	color: string;
 	price: number;
@@ -24,6 +25,7 @@ const initialState: ProductPurchaseState = {
 	brand: '',
 	model: '',
 	style: '',
+	size: '',
 	color: '',
 	price: 0,
 	image: '',
@@ -44,6 +46,7 @@ export const productReducer = createSlice({
 			state.brand = action.payload.brand || state.brand;
 			state.model = action.payload.model || state.model;
 			state.style = action.payload.style || state.style;
+			state.size = action.payload.size || state.size;
 			state.color = action.payload.color || state.color;
 			state.price = Number(action.payload.price) || state.price;
 			state.image = action.payload.image || state.image;
@@ -58,6 +61,7 @@ export const productReducer = createSlice({
 			state.brand = '';
 			state.model = '';
 			state.style = '';
+			state.size = '';
 			state.color = '';
 			state.price = 0;
 			state.image = '';
