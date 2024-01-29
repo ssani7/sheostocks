@@ -4,6 +4,7 @@ import Products from '@mui/icons-material/Inventory2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
 import SalesIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,6 +20,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../redux/hooks';
 
 const drawerWidth = 240;
 
@@ -37,10 +39,17 @@ const saleOptions = [
 	{ text: 'Make a Sale', link: '/products/sell', icon: <SellOutlinedIcon /> },
 ];
 
+const settings = [
+	{ title: 'Dashboard', link: '/' },
+	{ title: 'Logout', link: '/login' },
+];
+
 export default function ResponsiveDrawer(props: Props) {
 	// const { window } = props;
 	const [open, setOpen] = React.useState(false);
-	// const [isClosing, setIsClosing] = React.useState(false);
+	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+	const { profilePhoto, name } = useAppSelector((state) => state.user);
 
 	const handleDrawerClose = () => {
 		// setIsClosing(true);
@@ -51,6 +60,14 @@ export default function ResponsiveDrawer(props: Props) {
 		// if (!isClosing) {
 		// }
 		setOpen(!open);
+	};
+
+	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorElUser(event.currentTarget);
+	};
+
+	const handleCloseUserMenu = () => {
+		setAnchorElUser(null);
 	};
 
 	const drawer = (
@@ -136,21 +153,57 @@ export default function ResponsiveDrawer(props: Props) {
 		</div>
 	);
 
-	// Remove this const when copying and pasting into your project.
-	// const container = window !== undefined ? () => window().document.body : undefined;
-
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
-			<AppBar className="!shadow-md" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 0' }} position="fixed">
-				<Toolbar>
-					<IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2 }}>
-						<MenuIcon />
-					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						ShoeStock.com
-					</Typography>
-				</Toolbar>
+			<AppBar className="!shadow-md" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 1rem' }} position="fixed">
+				<div className="flex items-center justify-between w-full">
+					<div className="flex items-center">
+						<IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle}>
+							<MenuIcon />
+						</IconButton>
+						<Typography variant="h6" noWrap component="div">
+							<Link to={'/'}>ShoeStock.com</Link>
+						</Typography>
+					</div>
+					<Box sx={{ flexGrow: 0 }}>
+						<div className="flex items-center gap-3">
+							<Tooltip title="Open settings">
+								<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+									<Avatar alt="" src={profilePhoto || '/user.jpg'} />
+								</IconButton>
+							</Tooltip>
+						</div>
+						<Menu
+							sx={{ mt: '45px' }}
+							id="menu-appbar"
+							anchorEl={anchorElUser}
+							anchorOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							keepMounted
+							transformOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							open={Boolean(anchorElUser)}
+							onClose={handleCloseUserMenu}>
+							<div className="px-5 py-3">
+								<p className="font-bold break-before-all">{name || 'Anonymous User'}</p>
+								<p className="text-sm">Admin</p>
+							</div>
+							<Divider className="mx-2" />
+							{settings.map((setting) => (
+								<MenuItem key={setting.title} onClick={handleCloseUserMenu}>
+									<Link to={setting.link}>
+										<Typography textAlign="center">{setting.title}</Typography>
+									</Link>
+								</MenuItem>
+							))}
+						</Menu>
+					</Box>
+				</div>
 			</AppBar>
 			<Box component="nav" sx={{ flexShrink: { sm: 0 } }} aria-label="mailbox folders">
 				{/* The implementation can be swapped with js to avoid SEO duplication of links. */}

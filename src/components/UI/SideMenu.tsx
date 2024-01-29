@@ -151,7 +151,7 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 					</IconButton>
 					<div className="flex items-center justify-between w-full">
 						<Typography variant="h6" noWrap component="div">
-							ShoeStock.com
+							<Link to={'/'}>ShoeStock.com</Link>
 						</Typography>
 						<Box sx={{ flexGrow: 0 }}>
 							<div className="flex items-center gap-3">

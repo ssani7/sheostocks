@@ -7,6 +7,7 @@ import Products from '../page/Products';
 import Register from '../page/Register';
 import Sales from '../page/Sales';
 import SellProduct from '../page/SellProduct';
+import UpdateProduct from '../page/updateProduct';
 
 const router = createBrowserRouter([
 	{
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
 			{
 				path: 'products/sell',
 				element: <SellProduct />,
+			},
+			{
+				path: 'products/update/:id',
+				element: <UpdateProduct />,
 			},
 			{
 				path: 'sales',

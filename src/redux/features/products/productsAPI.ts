@@ -11,7 +11,7 @@ export const productsAPI = api.injectEndpoints({
 			providesTags: ['productsList'],
 		}),
 		getProductByID: builder.query({
-			query: (id) => `/product/${id}`,
+			query: (id) => `/products/${id}`,
 		}),
 		deleteProduct: builder.mutation({
 			query: (id) => ({
@@ -20,10 +20,18 @@ export const productsAPI = api.injectEndpoints({
 			}),
 			invalidatesTags: ['productsList'],
 		}),
-		searchProduct: builder.query({
-			query: (name) => `/search?name=${name}`,
+		getLowStockProducts: builder.query({
+			query: () => `/products/low-stock`,
+		}),
+		updateProduct: builder.mutation({
+			query: ({ productData }) => ({
+				url: `/products/${productData._id}`,
+				method: 'PUT',
+				body: productData,
+			}),
+			// invalidatesTags: ['dashboardInfo'],
 		}),
 	}),
 });
 
-export const { useGetProductsQuery, useGetProductsByFilterQuery, useSearchProductQuery, useDeleteProductMutation } = productsAPI;
+export const { useGetProductByIDQuery, useGetProductsQuery, useGetProductsByFilterQuery, useUpdateProductMutation, useGetLowStockProductsQuery, useDeleteProductMutation } = productsAPI;

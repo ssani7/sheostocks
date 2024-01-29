@@ -3,6 +3,7 @@ import { Backdrop, Button, CircularProgress, OutlinedInput } from '@mui/material
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
+import { useUpdateProductMutation } from '../../redux/features/products/productsAPI';
 import { useMakePurchaseMutation } from '../../redux/features/purchase/purchaseAPI';
 import { resetProduct, setProduct } from '../../redux/features/purchase/purchaseSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -20,7 +21,7 @@ const productData = [
 	{ title: 'Material', placeholder: 'Enter material', name: 'material' },
 ];
 
-const ProductForm = () => {
+const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 	const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
 
 	const onDrop = useCallback((acceptedFiles: Array<File>) => {
@@ -39,15 +40,18 @@ const ProductForm = () => {
 
 	const dispatch = useAppDispatch();
 	const [makePurchase, { isLoading, isSuccess, isError, error, reset }] = useMakePurchaseMutation();
+	const [updateProduct, { isLoading: isUpdating, isSuccess: isUpdateSuccess, isError: isUpateError, error: updateError, reset: resetUpdate }] = useUpdateProductMutation();
 
-	if (isSuccess) {
+	if (isSuccess || isUpdateSuccess) {
 		dispatch(resetProduct());
 		reset();
+		resetUpdate();
 		toast.success('Purchase made successfully');
 	}
-	if (isError) {
+	if (isError || isUpateError) {
 		reset();
-		toast.error(error?.data?.message);
+		resetUpdate();
+		toast.error(isError ? error?.data?.message : updateError?.data?.message);
 	}
 
 	const purchaseData = useAppSelector((state) => state.purchase);
@@ -70,7 +74,8 @@ const ProductForm = () => {
 
 		dispatch(setProduct({ image: results.url }));
 
-		await makePurchase({ purchaseData });
+		if (isUpdate) await updateProduct({ id: purchaseData._id, purchaseData });
+		else await makePurchase({ purchaseData });
 	}
 
 	return (
@@ -82,6 +87,7 @@ const ProductForm = () => {
 							<p className="mb-2 text-sm">{p.title}</p>
 							<OutlinedInput
 								type={p.isNum ? 'number' : 'text'}
+								value={purchaseData[p.name] || ''}
 								onChange={(e) => dispatch(setProduct({ [p.name]: e.target.value }))}
 								placeholder={p.placeholder}
 								sx={{
@@ -129,7 +135,7 @@ const ProductForm = () => {
 				Add Product
 			</Button>
 
-			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading || isUpdating}>
 				<CircularProgress color="inherit" />
 			</Backdrop>
 		</div>

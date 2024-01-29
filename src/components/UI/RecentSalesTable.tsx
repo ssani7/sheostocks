@@ -45,7 +45,7 @@ export default function RecentSalesTable() {
 
 	return (
 		<Paper sx={{ boxShadow: 'none', width: '100%' }}>
-			<TableContainer sx={{ maxHeight: 440, overflowX: 'auto' }}>
+			<TableContainer sx={{ maxHeight: 440 }}>
 				<Table stickyHeader aria-label="sticky table">
 					<TableHead>
 						<TableRow>
@@ -70,7 +70,7 @@ export default function RecentSalesTable() {
 										{row.product[0]?.model}
 									</TableCell>
 									<TableCell className={`!text-gray-400`} align="left">
-										{row.sale_amount}
+										{row.sale_amount.toFixed(2)}
 									</TableCell>
 									<TableCell className={`!text-gray-400`} align="left">
 										{row?.date && moment(row.date).format('MMM DD, yyyy')}

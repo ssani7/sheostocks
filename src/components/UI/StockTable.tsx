@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
+import { useGetLowStockProductsQuery } from '../../redux/features/products/productsAPI';
 
 interface Column {
 	id: string;
@@ -17,46 +18,19 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-	{ id: 'id', label: 'ID', minWidth: 80 },
+	{ id: '_id', label: 'ID', minWidth: 80 },
 	{ id: 'model', label: 'Product' },
+	{ id: 'brand', label: 'Brand' },
 	{
 		id: 'quantity',
 		label: 'Quantity',
+		align: 'right',
 	},
 	{
-		id: 'alert',
+		id: 'stock_alert',
 		label: 'Alert Qnt',
+		align: 'right',
 	},
-];
-
-// interface Data {
-// 	name: string;
-// 	id: string;
-// 	amount: number;
-// 	status: number;
-// 	density: number;
-// }
-
-function createData(name: string, id: string, quantity: number, alert: number) {
-	return { model: name, id, quantity, alert };
-}
-
-const rows: any = [
-	createData('India', 'IN', 12, 10),
-	createData('China', 'CN', 12, 10),
-	createData('Italy', 'IT', 12, 10),
-	createData('United States', 'US', 12, 10),
-	createData('Canada', 'CA', 12, 10),
-	createData('Australia', 'AU', 12, 10),
-	createData('Germany', 'DE', 12, 10),
-	createData('Ireland', 'IE', 12, 10),
-	createData('Mexico', 'MX', 12, 10),
-	createData('Japan', 'JP', 12, 10),
-	createData('France', 'FR', 12, 10),
-	createData('United Kingdom', 'GB', 12, 10),
-	createData('Russia', 'RU', 12, 10),
-	createData('Nigeria', 'NG', 12, 10),
-	createData('Brazil', 'BR', 12, 10),
 ];
 
 export default function StockTable() {
@@ -71,6 +45,10 @@ export default function StockTable() {
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};
+
+	const { data } = useGetLowStockProductsQuery('');
+	const rows = data?.data || [];
+	console.log('🚀 ~ StockTable ~ data:', data);
 
 	return (
 		<Paper className="!shadow-none" sx={{ width: '100%', overflow: 'hidden' }}>
@@ -92,7 +70,7 @@ export default function StockTable() {
 									{columns.map((column) => {
 										const value = row[column.id];
 										return (
-											<TableCell className={`!text-gray-400 ${column.id === 'alert' && '!text-red-500 !font-semibold'}`} key={column.id} align={column.align}>
+											<TableCell className={`!text-gray-400 ${column.id === 'stock_alert' && '!text-red-500 !font-semibold'}`} key={column.id} align={column.align}>
 												{column.format && typeof value === 'number' ? column.format(value) : value}
 											</TableCell>
 										);

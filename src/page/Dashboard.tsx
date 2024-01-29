@@ -6,43 +6,43 @@ import StockTable from '../components/UI/StockTable';
 
 const data = [
 	{
-		name: 'Page A',
+		name: 'Saturday',
 		sales: 4000,
 		purchase: 2400,
 		amt: 2400,
 	},
 	{
-		name: 'Page B',
+		name: 'Sunday',
 		sales: 3000,
 		purchase: 1398,
 		amt: 2210,
 	},
 	{
-		name: 'Page C',
+		name: 'Monday',
 		sales: 2000,
 		purchase: 9800,
 		amt: 2290,
 	},
 	{
-		name: 'Page D',
+		name: 'Tuesday',
 		sales: 2780,
 		purchase: 3908,
 		amt: 2000,
 	},
 	{
-		name: 'Page E',
+		name: 'Wednesday',
 		sales: 1890,
 		purchase: 4800,
 		amt: 2181,
 	},
 	{
-		name: 'Page F',
+		name: 'Thursday',
 		sales: 2390,
 		purchase: 3800,
 		amt: 2500,
 	},
 	{
-		name: 'Page G',
+		name: 'Friday',
 		sales: 3490,
 		purchase: 4300,
 		amt: 2100,

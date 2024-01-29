@@ -30,7 +30,7 @@ const CardSection = () => {
 					))}
 				</div>
 			) : (
-				<div className="grid grid-cols-2 gap-6 xl:grid-cols-4 pt-2">
+				<div className="grid grid-cols-1 gap-6 xl:grid-cols-4 pt-2">
 					<InfoCard icon={<SalesIcon htmlColor="#6466e9" className="!text-5xl" />} title="Sales" value={totalSale || 0} />
 					<InfoCard icon={<PurchaseIcon htmlColor="#6466e9" className="!text-5xl" />} title="Purchase" value={totalPurchase || 0} />
 					<InfoCard icon={<ProfitIcon htmlColor="#6466e9" className="!text-5xl" />} title="Profit this month" value={profit || 0} />

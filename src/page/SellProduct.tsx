@@ -55,6 +55,7 @@ const SellProduct = () => {
 				product_id: selected.id,
 				sale_quantity,
 				sale_amount: sale_quantity * selected.price,
+				product_name: selected.name,
 			};
 
 			await postSale({ saleData });

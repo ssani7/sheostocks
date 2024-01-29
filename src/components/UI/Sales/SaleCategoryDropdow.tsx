@@ -45,7 +45,7 @@ export default function SalesCategory({ category, setCategory }: { category: Sal
 					input={
 						<OutlinedInput
 							sx={{
-								'&  .MuiOutlinedInput-notchedOutline': { borderColor: 'red !important' },
+								'&  .MuiOutlinedInput-notchedOutline': { borderColor: '#bbbced !important' },
 							}}
 							className="capitalize"
 						/>

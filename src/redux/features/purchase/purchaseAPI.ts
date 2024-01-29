@@ -15,14 +15,6 @@ export const puchaseAPI = api.injectEndpoints({
 			}),
 			// invalidatesTags: ['dashboardInfo'],
 		}),
-		registerUser: builder.mutation({
-			query: ({ userData }) => ({
-				url: `/auth/register`,
-				method: 'POST',
-				body: userData,
-			}),
-			// invalidatesTags: ['dashboardInfo'],
-		}),
 	}),
 });
 

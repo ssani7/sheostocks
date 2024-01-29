@@ -5,6 +5,9 @@ export const saleAPI = api.injectEndpoints({
 		getRecentSales: builder.query({
 			query: () => '/sale/recent-sales',
 		}),
+		getBestSelling: builder.query({
+			query: () => '/sale/best-selling',
+		}),
 		getSaleByCategory: builder.query({
 			query: (category) => `/sale/${category}`,
 		}),
@@ -19,4 +22,4 @@ export const saleAPI = api.injectEndpoints({
 	}),
 });
 
-export const { useGetRecentSalesQuery, useMakeSaleMutation, useGetSaleByCategoryQuery } = saleAPI;
+export const { useGetRecentSalesQuery, useMakeSaleMutation, useGetSaleByCategoryQuery, useGetBestSellingQuery } = saleAPI;

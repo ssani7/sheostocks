@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface ProductPurchaseState {
+	_id?: string;
 	name: string;
 	quantity: number;
 	releaseDate: Date | null;
@@ -16,6 +17,7 @@ interface ProductPurchaseState {
 }
 
 const initialState: ProductPurchaseState = {
+	_id: '',
 	name: '',
 	quantity: 0,
 	releaseDate: null,
@@ -34,6 +36,7 @@ export const productReducer = createSlice({
 	initialState,
 	reducers: {
 		setProduct: (state, action: PayloadAction<Partial<ProductPurchaseState>>) => {
+			state._id = action.payload._id || state._id;
 			state.name = action.payload.name || state.name;
 			state.quantity = Number(action.payload.quantity) || state.quantity;
 			state.stock_alert = Number(action.payload.stock_alert) || state.quantity;
@@ -47,6 +50,7 @@ export const productReducer = createSlice({
 			state.material = action.payload.material || state.material;
 		},
 		resetProduct: (state) => {
+			state._id = '';
 			state.name = '';
 			state.quantity = 0;
 			state.stock_alert = 0;
