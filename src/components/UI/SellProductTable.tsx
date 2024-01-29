@@ -1,6 +1,4 @@
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import PlusIcon from '@mui/icons-material/ControlPointOutlined';
-import MinusIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { OutlinedInput } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -10,22 +8,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { ChangeEvent } from 'react';
-import { IProduct } from '../../types/Product';
+import { setSaleState, unselectProduct } from '../../redux/features/sale/saleSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-type SellTableProps = {
-	selected: IProduct | null;
-	setSelected: (_product: IProduct | null) => void;
-};
+// type SellTableProps = {
+// 	selected: IProduct | null;
+// 	setSelected: (_product: IProduct | null) => void;
+// };
 
-const SellProductTable = ({ selected, setSelected }: SellTableProps) => {
+const SellProductTable = () => {
+	const dispatch = useAppDispatch();
+
+	const { selected, sale_quantity } = useAppSelector((state) => state.sale);
+
 	const handleDeleteProduct = () => {
-		setSelected(null);
+		dispatch(unselectProduct());
 	};
 
 	const handleQuantity = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		if (!selected) return;
 
-		setSelected({ ...selected, quantity: Number(e.target.value) });
+		dispatch(setSaleState({ sale_quantity: Number(e.target.value) }));
 	};
 
 	return selected ? (
@@ -36,7 +39,8 @@ const SellProductTable = ({ selected, setSelected }: SellTableProps) => {
 						<TableCell>Product Name</TableCell>
 						<TableCell align="center">ID</TableCell>
 						<TableCell align="right">Unit Cost</TableCell>
-						<TableCell align="center">Quantity</TableCell>
+						<TableCell align="center">Sale Quantity</TableCell>
+						<TableCell align="center">Stock</TableCell>
 						<TableCell align="right">Subtotal</TableCell>
 						<TableCell align="center">Delete</TableCell>
 					</TableRow>
@@ -50,12 +54,11 @@ const SellProductTable = ({ selected, setSelected }: SellTableProps) => {
 						<TableCell align="right">{selected.price}</TableCell>
 						<TableCell align="center">
 							<div className=" w-fit mx-auto">
-								<MinusIcon />
-								<OutlinedInput type="number" onChange={(e) => handleQuantity(e)} defaultValue={selected.quantity} className="mx-5 w-fit max-w-20" />
-								<PlusIcon />
+								<OutlinedInput inputProps={{ min: 1, max: selected.quantity }} type="number" onChange={handleQuantity} defaultValue={sale_quantity} className="mx-5 w-full max-w-20" />
 							</div>
 						</TableCell>
-						<TableCell align="right">{(selected.price * selected.quantity).toFixed(2)}</TableCell>
+						<TableCell align="center">{selected.quantity}</TableCell>
+						<TableCell align="right">{(selected.price * sale_quantity).toFixed(2)}</TableCell>
 						<TableCell align="center">
 							<CancelOutlinedIcon onClick={() => handleDeleteProduct()} className="cursor-pointer" htmlColor="red" />
 						</TableCell>

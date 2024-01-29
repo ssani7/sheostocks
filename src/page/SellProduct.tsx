@@ -7,6 +7,8 @@ import { useState } from 'react';
 import SellProductTable from '../components/UI/SellProductTable';
 import { useMakeSaleMutation } from '../redux/api/salesAPI';
 import { useGetProductsQuery } from '../redux/features/products/productsAPI';
+import { resetSaleState, setSaleState } from '../redux/features/sale/saleSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { IProduct } from '../types/Product';
 
 const warehouseOptions = ['Uttara Warehouse', 'Mirpur Warehouse'];
@@ -15,23 +17,35 @@ const SellProduct = () => {
 	const { data, isLoading: loading } = useGetProductsQuery('');
 	const products: IProduct[] = data?.data || [];
 
-	const [postSale, result] = useMakeSaleMutation();
-	console.log('🚀 ~ SellProduct ~ result:', result);
+	const [postSale, { isSuccess, isError, error, reset }] = useMakeSaleMutation();
+	const dispatch = useAppDispatch();
 
-	const [warehouse, setWarehouse] = useState('');
-	const [customer, setCustomer] = useState('');
-	const [date, setDate] = useState<Date>();
-	const [selected, setSelected] = useState<IProduct | null>(null);
+	if (isSuccess) {
+		dispatch(resetSaleState());
+		reset();
+		toast.success('Sale made successfully');
+	}
+	if (isError) {
+		// dispatch(resetSaleState());
+		reset();
+		toast.error(error?.data?.message);
+	}
+
+	// const [warehouse, setWarehouse] = useState('');
+	// const [customer, setCustomer] = useState('');
+	// const [date, setDate] = useState<Date>();
+	// const [selected, setSelected] = useState<IProduct | null>(null);
 	const [open, setOpen] = useState<boolean>(false);
 
-	// const selectedIds = selected.map((p) => p.name);
+	const { warehouse, customer, date, selected, sale_quantity } = useAppSelector((state) => state.sale);
 
 	const handleChange = (event: SelectChangeEvent) => {
-		setWarehouse(event.target.value as string);
+		dispatch(setSaleState({ warehouse: event.target.value as string }));
 	};
 
 	const makeSale = async () => {
-		if (!selected) return;
+		if (!selected || !customer || !warehouse || !date) return toast.error('Please fill all the fields before making a sale');
+		if (sale_quantity > selected.quantity || sale_quantity < 0) return toast.error('Sale quantity must be greater than zero and lower than current stock');
 
 		try {
 			const saleData = {
@@ -39,15 +53,11 @@ const SellProduct = () => {
 				customer,
 				warehouse,
 				product_id: selected.id,
-				sale_quantity: selected.quantity,
-				sale_amount: selected.quantity * selected.price,
+				sale_quantity,
+				sale_amount: sale_quantity * selected.price,
 			};
 
 			await postSale({ saleData });
-			setSelected(null);
-			setWarehouse('');
-			setCustomer('');
-			toast.success('Sale made successfully');
 		} catch (error) {
 			console.log(error);
 		}
@@ -64,7 +74,7 @@ const SellProduct = () => {
 					<OutlinedInput
 						type="date"
 						placeholder="mm/dd/yyyy"
-						onChange={(e) => setDate(e.target.value as unknown as Date)}
+						onChange={(e) => dispatch(setSaleState({ date: e.target.value as unknown as Date }))}
 						sx={{
 							'& .MuiOutlinedInput-notchedOutline': { border: 'white' },
 						}}
@@ -74,8 +84,9 @@ const SellProduct = () => {
 				<div>
 					<p className="mb-2 text-sm">Customer</p>
 					<OutlinedInput
+						value={customer}
 						placeholder="John Doe"
-						onChange={(e) => setCustomer(e.target.value)}
+						onChange={(e) => dispatch(setSaleState({ customer: e.target.value }))}
 						sx={{
 							'& .MuiOutlinedInput-notchedOutline': { border: 'white' },
 						}}
@@ -151,7 +162,7 @@ const SellProduct = () => {
 						<li
 							{...props}
 							onClick={() => {
-								setSelected(option);
+								dispatch(setSaleState({ selected: option }));
 								setOpen(false);
 							}}
 							className={`flex items-center justify-between border-b last:border-b-0 gap-3 p-2 cursor-pointer`}>
@@ -168,7 +179,7 @@ const SellProduct = () => {
 			<div className="my-6">
 				<p className="text-xl font-semibold mb-4">Selected Products For Sale</p>
 
-				<SellProductTable selected={selected} setSelected={setSelected} />
+				<SellProductTable />
 			</div>
 
 			<Button onClick={makeSale} sx={{ bgcolor: '#6466e9', fontWeight: 600, '&:hover': { bgcolor: '#6466e9' } }} variant="contained">
