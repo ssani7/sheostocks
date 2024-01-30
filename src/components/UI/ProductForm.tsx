@@ -63,7 +63,7 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 	async function handleOnSubmit(e: React.SyntheticEvent) {
 		e.preventDefault();
 
-		if (typeof acceptedFiles[0] === 'undefined') return;
+		if (typeof acceptedFiles[0] === 'undefined' && !purchaseData?.image) return;
 
 		const formData = new FormData();
 
@@ -136,7 +136,7 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 				/>
 			</div>
 			<Button onClick={handleOnSubmit} sx={{ bgcolor: '#6466e9', fontWeight: 600, '&:hover': { bgcolor: '#6466e9' } }} variant="contained">
-				Add Product
+				{isUpdate ? 'Update' : 'Add Product'}
 			</Button>
 
 			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading || isUpdating}>
