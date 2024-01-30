@@ -5,7 +5,8 @@ For running the website locally use your server url as `VITE_SERVER_URL` in a .e
 
 Run `yarn` for installing node modules and `yarn dev` for running the website locally 
 
-Create a user account by registering from `/register` page. 
+For handling CUD operation use email `sanaullah@gmail.com` password: `123456` to login.
+User can create a user account by registering from `/register` page. 
 
 
 # Features
