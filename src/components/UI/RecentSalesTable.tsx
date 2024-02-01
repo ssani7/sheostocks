@@ -67,7 +67,7 @@ export default function RecentSalesTable() {
 										{row.customer}
 									</TableCell>
 									<TableCell className={`!text-gray-400`} align="left">
-										{row.product[0]?.model}
+										{row.product[0]?.model || row?.product_name}
 									</TableCell>
 									<TableCell className={`!text-gray-400`} align="left">
 										{row.sale_amount.toFixed(2)}
