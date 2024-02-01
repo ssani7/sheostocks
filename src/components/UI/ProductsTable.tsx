@@ -63,6 +63,7 @@ const ProductsTable = () => {
 	const handleBulkDelete = async () => {
 		try {
 			await deleteBulk(selected);
+			setSelected([]);
 		} catch (error) {
 			console.log(error);
 		}
