@@ -4,12 +4,15 @@ export const saleAPI = api.injectEndpoints({
 	endpoints: (builder) => ({
 		getRecentSales: builder.query({
 			query: () => '/sale/recent-sales',
+			providesTags: ['salesInfo'],
 		}),
 		getBestSelling: builder.query({
 			query: () => '/sale/best-selling',
+			providesTags: ['salesInfo'],
 		}),
 		getSaleByCategory: builder.query({
 			query: (category) => `/sale/${category}`,
+			providesTags: ['salesInfo'],
 		}),
 		makeSale: builder.mutation({
 			query: ({ saleData }) => ({
@@ -17,7 +20,7 @@ export const saleAPI = api.injectEndpoints({
 				method: 'POST',
 				body: { saleData },
 			}),
-			// invalidatesTags: ['dashboardInfo'],
+			invalidatesTags: ['salesInfo', 'productsList'],
 		}),
 	}),
 });

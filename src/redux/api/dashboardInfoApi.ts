@@ -10,7 +10,7 @@ export const api = createApi({
 			if (token) header.set('authorization', token);
 		},
 	}),
-	tagTypes: ['dashboardInfo', 'productsList', 'userInfo'],
+	tagTypes: ['dashboardInfo', 'productsList', 'userInfo', 'salesInfo'],
 	endpoints: (builder) => ({
 		getCardInfo: builder.query({
 			query: () => '/info/cardInfo',
