@@ -1,7 +1,7 @@
 import DuplicateIcon from '@mui/icons-material/ContentCopyOutlined';
 import EditIcon from '@mui/icons-material/CreateOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Backdrop, CircularProgress, IconButton, TablePagination, Tooltip } from '@mui/material';
+import { Backdrop, Button, Checkbox, CircularProgress, IconButton, TablePagination, Tooltip } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,19 +12,20 @@ import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useDeleteProductMutation, useGetProductsByFilterQuery } from '../../redux/features/products/productsAPI';
+import { useDeleteBulkProductMutation, useDeleteProductMutation, useGetProductsByFilterQuery } from '../../redux/features/products/productsAPI';
 import { useAppSelector } from '../../redux/hooks';
 import { IProduct } from '../../types/Product';
 import FilterPopup from './Products/FilterPopup';
 
 const ProductsTable = () => {
-	// const [filter, setFilter] = useState({ name: '', price: 0, brand: '' });
 	const filter = useAppSelector((state) => state.productFilter);
 
 	const { data } = useGetProductsByFilterQuery(filter, { refetchOnMountOrArgChange: true, pollingInterval: 30000 });
 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [selected, setSelected] = useState<string[]>([]);
+	console.log('🚀 ~ ProductsTable ~ selected:', selected);
 
 	const handleChangePage = (_event: unknown, newPage: number) => {
 		setPage(newPage);
@@ -38,14 +39,17 @@ const ProductsTable = () => {
 	const rows = data?.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
 	const [deleteProduct, { isLoading, isSuccess, isError, error, reset }] = useDeleteProductMutation();
+	const [deleteBulk, { isLoading: isDeletingBulk, isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError, reset: resetDelete }] = useDeleteBulkProductMutation();
 
-	if (isSuccess) {
+	if (isSuccess || isDeleteSuccess) {
 		reset();
-		toast.success('Purchase deleted successfully');
+		resetDelete();
+		toast.success('Product deleted successfully');
 	}
-	if (isError) {
+	if (isError || isDeleteError) {
 		reset();
-		toast.error((error as any)?.data?.message);
+		resetDelete();
+		toast.error(isError ? (error as any)?.data?.message : (deleteError as any)?.data?.message);
 	}
 
 	const handleProductDelete = async (_id: string) => {
@@ -56,9 +60,30 @@ const ProductsTable = () => {
 		}
 	};
 
+	const handleBulkDelete = async () => {
+		try {
+			await deleteBulk(selected);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleChecked = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+		if (e.target.checked) {
+			setSelected((prev) => [...prev, id]);
+		} else if (selected.includes(id)) {
+			setSelected((prev) => prev.filter((p) => p !== id));
+		}
+	};
+
 	return (
 		<div>
-			<FilterPopup />
+			<div className="w-full flex items-center justify-between">
+				<FilterPopup />
+				<Button onClick={handleBulkDelete} color="error" sx={{ display: selected?.length ? 'inline-block' : 'none', textTransform: 'capitalize' }} variant="outlined">
+					Delete
+				</Button>
+			</div>
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
@@ -66,6 +91,7 @@ const ProductsTable = () => {
 							sx={{
 								'& th': { fontWeight: '600 !important', fontSize: '1rem' },
 							}}>
+							<TableCell></TableCell>
 							<TableCell>Image</TableCell>
 							<TableCell align="right">Model</TableCell>
 							<TableCell align="right">Brand</TableCell>
@@ -80,9 +106,12 @@ const ProductsTable = () => {
 					</TableHead>
 					<TableBody>
 						{rows?.map((row: IProduct & { _id: string }) => (
-							<TableRow hover key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+							<TableRow hover selected={selected?.includes(row._id)} key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 								<TableCell component="th" scope="row">
-									<img className="h-10 w-10" src={row?.image || ''} alt="" />
+									<Checkbox onChange={(e) => handleChecked(e, row._id)} sx={{ color: '#4e46dc !important' }} />
+								</TableCell>
+								<TableCell component="th" scope="row">
+									<img className="h-16 w-16" src={row?.image || ''} alt="" />
 								</TableCell>
 								<TableCell align="right">{row?.model}</TableCell>
 								<TableCell align="right">{row.brand}</TableCell>
@@ -125,7 +154,7 @@ const ProductsTable = () => {
 					onRowsPerPageChange={handleChangeRowsPerPage}
 				/>
 			</TableContainer>
-			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading || isDeletingBulk}>
 				<CircularProgress color="inherit" />
 			</Backdrop>
 		</div>

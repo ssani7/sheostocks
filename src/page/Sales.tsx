@@ -50,7 +50,7 @@ const Sales = () => {
 						{rows?.map((row: ISale) => (
 							<TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 								<TableCell component="th" scope="row">
-									<img className="h-10 w-10" src={row?.product[0]?.image || ''} alt="" />
+									<img className="h-16 w-16" src={row?.product[0]?.image || ''} alt="" />
 								</TableCell>
 								<TableCell align="right">{row?.product[0]?.model}</TableCell>
 								<TableCell align="right">{row.customer}</TableCell>

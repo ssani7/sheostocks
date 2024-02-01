@@ -6,6 +6,7 @@ export const userAPI = api.injectEndpoints({
 			query: (email) => ({
 				url: `/auth/userInfo/${email}`,
 			}),
+			providesTags: ['userInfo'],
 		}),
 		loginUser: builder.mutation({
 			query: ({ userData }) => ({
@@ -13,7 +14,7 @@ export const userAPI = api.injectEndpoints({
 				method: 'POST',
 				body: userData,
 			}),
-			// invalidatesTags: ['dashboardInfo'],
+			invalidatesTags: ['userInfo'],
 		}),
 		registerUser: builder.mutation({
 			query: ({ userData }) => ({
@@ -21,7 +22,7 @@ export const userAPI = api.injectEndpoints({
 				method: 'POST',
 				body: userData,
 			}),
-			// invalidatesTags: ['dashboardInfo'],
+			invalidatesTags: ['userInfo'],
 		}),
 	}),
 });

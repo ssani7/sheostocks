@@ -23,6 +23,7 @@ const productData = [
 
 const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 	const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+	const [loadingReq, setLoadingReq] = useState<boolean>(false);
 
 	const onDrop = useCallback((acceptedFiles: Array<File>) => {
 		const reader = new FileReader();
@@ -50,18 +51,21 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 		reset();
 		resetUpdate();
 		toast.success('Purchase made successfully');
+		setLoadingReq(false);
 	}
 	if (isError || isUpateError) {
 		reset();
 		resetUpdate();
 		const errorMessage = isError ? (error as any).data?.message : (updateError as any).data?.message;
 		toast.error(errorMessage);
+		setLoadingReq(false);
 	}
 
 	const purchaseData: any = useAppSelector((state) => state.purchase);
 
 	async function handleOnSubmit(e: React.SyntheticEvent) {
 		e.preventDefault();
+		setLoadingReq(true);
 
 		if (typeof acceptedFiles[0] === 'undefined' && !purchaseData?.image) return;
 
@@ -110,7 +114,7 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 
 							<div className={`${isDragActive && 'bg-[#6466e9] !text-white'} border rounded-lg px-8 py-8 flex flex-col gap-2 items-center justify-center cursor-pointer`}>
 								<CloudUpload sx={{ height: 80, width: 80 }} />
-								<p>Drag and Drop image here or</p>
+								<p className="text-center">Drag and Drop image here or</p>
 								<p className={`${isDragActive ? 'text-white' : 'text-[#6466e9]'} font-semibold`}>Select</p>
 							</div>
 						</div>
@@ -139,7 +143,7 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 				{isUpdate ? 'Update' : 'Add Product'}
 			</Button>
 
-			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading || isUpdating}>
+			<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading || isUpdating || loadingReq}>
 				<CircularProgress color="inherit" />
 			</Backdrop>
 		</div>

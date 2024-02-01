@@ -8,8 +8,13 @@ import { useAppDispatch } from './redux/hooks';
 function App() {
 	const dispatch = useAppDispatch();
 
-	const userEmail = localStorage.getItem('userEmail');
+	const userEmail = localStorage.getItem('user-email');
 	const { data } = useGetUserInfoQuery(userEmail);
+
+	// if (isError) {
+	// 	localStorage.removeItem('user-email');
+	// 	localStorage.removeItem('user-auth');
+	// }
 
 	if (data?.data) dispatch(setUser(data?.data));
 

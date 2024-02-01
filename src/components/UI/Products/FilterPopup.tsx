@@ -1,5 +1,6 @@
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Button, IconButton, Modal, TextField, Tooltip } from '@mui/material';
+import { Button, Divider, IconButton, Modal, TextField, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { setProductFilter } from '../../../redux/features/products/productFilter';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
@@ -21,18 +22,24 @@ const FilterPopup = () => {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const [value, setValue] = useState(30);
+	const [value, setValue] = useState(200);
 
 	return (
 		<div className="my-5">
-			<Tooltip title="Filter list">
-				<IconButton onClick={handleOpen}>
-					<FilterListIcon />
-				</IconButton>
+			<Tooltip title="Filter list" placement="right">
+				<Button onClick={handleOpen} sx={{ padding: 2, display: 'flex', gap: 2, textTransform: 'capitalize' }} variant="outlined">
+					Filter <FilterListIcon />
+				</Button>
 			</Tooltip>
+
 			<Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-2/3 min-w-96 bg-white p-10 rounded-lg shadow-lg min-h-28 ">
-					<div className="grid grid-cols-3 gap-10 mb-10">
+				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-full lg:max-w-[60%] min-w-96 bg-white p-10 rounded-lg shadow-lg min-h-28 lg:max-h-[90%] overflow-auto">
+					<p className="text-xl mb-5 font-semibold">Filter</p>
+					<IconButton onClick={handleClose} className="!absolute top-5 right-5">
+						<CancelOutlinedIcon fontSize="medium" />
+					</IconButton>
+					<Divider />
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-10 my-10 ">
 						<TextField onChange={handleFilter} defaultValue={filter.model} name="model" label="Product Model" variant="outlined" />
 						<TextField onChange={handleFilter} defaultValue={filter.style} name="style" label="Style" variant="outlined" />
 						<TextField onChange={handleFilter} defaultValue={filter.brand} name="brand" label="Brand" variant="outlined" />

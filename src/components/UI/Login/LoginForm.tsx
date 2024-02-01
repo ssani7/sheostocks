@@ -2,6 +2,8 @@ import { CircularProgress, Divider, OutlinedInput } from '@mui/material';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../../../redux/features/user/userAPI';
+import { setUser } from '../../../redux/features/user/userSlice';
+import { useAppDispatch } from '../../../redux/hooks';
 
 const LoginForm = () => {
 	const [email, setEmail] = useState<string>('');
@@ -11,8 +13,12 @@ const LoginForm = () => {
 	const errorMessage = (error as any)?.data?.message || '';
 	const navigate = useNavigate();
 
+	const dispatch = useAppDispatch();
+
 	if (isSuccess) {
+		localStorage.setItem('user-email', email);
 		localStorage.setItem('user-auth', data?.data?.token);
+		dispatch(setUser(data?.data.user));
 		navigate('/');
 	}
 

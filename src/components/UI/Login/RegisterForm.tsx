@@ -10,15 +10,16 @@ const RegisterForm = () => {
 	const [password, setPassword] = useState<string>('');
 	const [confrmPass, setConfrmPass] = useState<string>('');
 
-	const [registerUser, { data, isLoading }] = useRegisterUserMutation();
+	const [registerUser, { isSuccess, isLoading, isError, error: registerError, reset, data }] = useRegisterUserMutation();
 	const navigate = useNavigate();
 
-	if (data?.status === true) {
-		localStorage.setItem('userEmail', email);
+	if (isSuccess) {
+		localStorage.setItem('user-auth', data?.token);
 		navigate('/');
 	}
 
 	const handleSignUp = async () => {
+		reset();
 		if (password !== confrmPass) return setError('nomatch');
 		try {
 			const userData = { email, password };
@@ -29,7 +30,7 @@ const RegisterForm = () => {
 	};
 
 	return (
-		<div className="w-1/2 bg-white px-10">
+		<div className="w-[90%] lg:w-1/2 bg-white px-10">
 			<p className="text-2xl font-medium py-6 text-center">ShoeStocks.com</p>
 			<Divider />
 			<div className="pb-10">
@@ -79,6 +80,7 @@ const RegisterForm = () => {
 						className="w-full bg-[#f1f5f9] border-0"
 					/>
 					{error === 'nomatch' && <p className="text-sm text-center mt-2 text-red-600">The passwords do not match</p>}
+					{isError && <p className="text-sm text-center mt-2 text-red-600 ">{(registerError as any)?.data?.message}</p>}
 				</div>
 
 				<p className="text-sm font-light text-center mt-5">

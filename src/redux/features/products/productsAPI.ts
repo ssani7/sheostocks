@@ -20,6 +20,14 @@ export const productsAPI = api.injectEndpoints({
 			}),
 			invalidatesTags: ['productsList'],
 		}),
+		deleteBulkProduct: builder.mutation({
+			query: (ids) => ({
+				url: `/products/bulk`,
+				method: 'DELETE',
+				body: { ids: ids },
+			}),
+			invalidatesTags: ['productsList'],
+		}),
 		getLowStockProducts: builder.query({
 			query: () => `/products/low-stock`,
 		}),
@@ -34,4 +42,12 @@ export const productsAPI = api.injectEndpoints({
 	}),
 });
 
-export const { useGetProductByIDQuery, useGetProductsQuery, useGetProductsByFilterQuery, useUpdateProductMutation, useGetLowStockProductsQuery, useDeleteProductMutation } = productsAPI;
+export const {
+	useGetProductByIDQuery,
+	useGetProductsQuery,
+	useGetProductsByFilterQuery,
+	useUpdateProductMutation,
+	useGetLowStockProductsQuery,
+	useDeleteBulkProductMutation,
+	useDeleteProductMutation,
+} = productsAPI;
