@@ -12,6 +12,7 @@ export const puchaseAPI = api.injectEndpoints({
 				url: `/purchase/make-purchase`,
 				method: 'POST',
 				body: purchaseData,
+				// headers: apiHeader,
 			}),
 			// invalidatesTags: ['dashboardInfo'],
 		}),

@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import AddProduct from '../page/AddProduct';
 import Dashboard from '../page/Dashboard';
+import DuplicatePage from '../page/DuplicatePage';
 import Login from '../page/Login';
 import Products from '../page/Products';
 import Register from '../page/Register';
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
 			{
 				path: 'products/update/:id',
 				element: <UpdateProduct />,
+			},
+			{
+				path: 'products/duplicate/:id',
+				element: <DuplicatePage />,
 			},
 			{
 				path: 'sales',
