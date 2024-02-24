@@ -1,8 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '../App';
+import { default as DashboardPages } from '../App';
+import MainLayout from '../layouts/MainLayout';
 import AddProduct from '../page/AddProduct';
 import Dashboard from '../page/Dashboard';
 import DuplicatePage from '../page/DuplicatePage';
+import Home from '../page/Home';
 import Login from '../page/Login';
 import Products from '../page/Products';
 import Register from '../page/Register';
@@ -13,7 +15,17 @@ import UpdateProduct from '../page/UpdateProduct';
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <App />,
+		element: <MainLayout />,
+		children: [
+			{
+				index: true,
+				element: <Home />,
+			},
+		],
+	},
+	{
+		path: '/dashboard',
+		element: <DashboardPages />,
 		children: [
 			{
 				index: true,

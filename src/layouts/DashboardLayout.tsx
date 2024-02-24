@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import MiniDrawer from '../components/UI/SideMenu';
 import ResponsiveDrawer from '../components/UI/TemporaryDrawer';
 
-const MainPage = () => {
+const DashboardLayout = () => {
 	const ismobile = useMediaQuery('(max-width:730px)');
 	return (
 		<div>
@@ -20,4 +20,4 @@ const MainPage = () => {
 	);
 };
 
-export default MainPage;
+export default DashboardLayout;
