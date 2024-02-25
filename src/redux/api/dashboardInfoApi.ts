@@ -8,6 +8,7 @@ export const api = createApi({
 		prepareHeaders: (header) => {
 			const token = config.api_config;
 			if (token) header.set('Authorization', token);
+			return header;
 		},
 	}),
 	tagTypes: ['dashboardInfo', 'productsList', 'userInfo', 'salesInfo'],
