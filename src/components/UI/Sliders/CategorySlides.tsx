@@ -43,14 +43,27 @@ const CategorySlides = () => {
 		<div className="relative mt-5">
 			<Swiper
 				spaceBetween={20}
-				slidesPerView={5}
+				slidesPerView={2}
 				onSlideChange={() => console.log('slide change')}
 				navigation={{ nextEl: '.arrow-left', prevEl: '.arrow-right', disabledClass: 'swiper-button-disabled' }}
 				modules={[Navigation]}
 				pagination={{ clickable: true }}
 				scrollbar={{ draggable: true }}
 				// onSwiper={(swiper) => console.log(swiper)}
-			>
+				breakpoints={{
+					900: {
+						slidesPerView: 5,
+						spaceBetween: 20,
+					},
+					768: {
+						slidesPerView: 4,
+						spaceBetween: 20,
+					},
+					540: {
+						slidesPerView: 3,
+						spaceBetween: 20,
+					},
+				}}>
 				{categories.map((category) => (
 					<SwiperSlide key={category.title}>
 						<div className="w-full">
@@ -69,12 +82,12 @@ const CategorySlides = () => {
 			</Swiper>
 
 			<div className="absolute top-0 -left-4 bottom-0 z-10 flex items-center justify-center">
-				<IconButton className="shadow-lg left-0 my-auto arrow-left group" sx={{ bgcolor: 'white', ':hover': { bgcolor: '#6466e9' } }}>
+				<IconButton className="shadow-lg left-0 my-auto arrow-right group" sx={{ bgcolor: 'white', ':hover': { bgcolor: '#6466e9' } }}>
 					<ArrowLeft className="group-hover:text-white" />
 				</IconButton>
 			</div>
 			<div className="absolute top-0 -right-4 bottom-0 z-10 flex items-center justify-center">
-				<IconButton className="shadow-lg left-0 my-auto arrow-right group" sx={{ bgcolor: 'white', rotate: '180deg', ':hover': { bgcolor: '#6466e9' } }}>
+				<IconButton className="shadow-lg left-0 my-auto arrow-left group" sx={{ bgcolor: 'white', rotate: '180deg', ':hover': { bgcolor: '#6466e9' } }}>
 					<ArrowLeft className="group-hover:text-white" />
 				</IconButton>
 			</div>
