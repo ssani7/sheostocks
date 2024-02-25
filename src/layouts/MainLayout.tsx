@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import NavBar from './components/shared/Navbar/NavBar';
-import { useGetUserInfoQuery } from './redux/features/user/userAPI';
-import { setUser } from './redux/features/user/userSlice';
-import { useAppDispatch } from './redux/hooks';
+import NavBar from '../components/shared/Navbar/NavBar';
+import { useGetUserInfoQuery } from '../redux/features/user/userAPI';
+import { setUser } from '../redux/features/user/userSlice';
+import { useAppDispatch } from '../redux/hooks';
 
-function App() {
+const MainLayout = () => {
 	const dispatch = useAppDispatch();
 
 	const userEmail = localStorage.getItem('user-email');
@@ -26,6 +26,6 @@ function App() {
 			<ToastContainer position="bottom-right" closeOnClick />
 		</div>
 	);
-}
+};
 
-export default App;
+export default MainLayout;

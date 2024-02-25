@@ -4,6 +4,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import Products from '@mui/icons-material/Inventory2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
 import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import SalesIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -24,7 +25,8 @@ import Typography from '@mui/material/Typography';
 import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../redux/hooks';
+import { resetUser } from '../../redux/features/user/userSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const drawerWidth = 240;
 
@@ -105,17 +107,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 	}),
 }));
 
-const settings = [
-	{ title: 'Dashboard', link: '/' },
-	{ title: 'Logout', link: '/login' },
-];
+const settings = [{ title: 'Dashboard', link: '/' }];
 
 export default function MiniDrawer({ children }: { children: React.ReactNode }) {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-	const { profilePhoto, name } = useAppSelector((state) => state.user);
+	const { profilePhoto, name, email } = useAppSelector((state) => state.user);
+
+	const dispatch = useAppDispatch();
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -131,6 +132,14 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+	};
+
+	const handleLogout = () => {
+		handleCloseUserMenu();
+		localStorage.removeItem('user-auth');
+		localStorage.removeItem('user-email');
+		dispatch(resetUser());
+		window.location.href = '/';
 	};
 
 	return (
@@ -154,19 +163,28 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 							<Link to={'/'}>ShoeStock.com</Link>
 						</Typography>
 						<Box sx={{ flexGrow: 0 }}>
-							<div className="flex items-center gap-3">
-								<Avatar alt="" src={profilePhoto || '/user.jpg'} />
+							{email ? (
+								<div className="flex items-center gap-3">
+									<Avatar alt="" src={profilePhoto || '/user.jpg'} />
 
-								<div>
-									<p className="font-bold">{name || 'Anonymous User'}</p>
-									<p className="text-sm">Admin</p>
+									<div>
+										<p className="font-bold">{name || 'Anonymous User'}</p>
+										<p className="text-sm">Admin</p>
+									</div>
+									<Tooltip title="Open settings">
+										<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+											<SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" />
+										</IconButton>
+									</Tooltip>
 								</div>
-								<Tooltip title="Open settings">
-									<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-										<SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" />
-									</IconButton>
-								</Tooltip>
-							</div>
+							) : (
+								<Link to={'/login'} className="flex items-center gap-2 cursor-pointer">
+									<PersonIcon />
+									<Typography variant="body2" fontWeight={700}>
+										Sign in
+									</Typography>
+								</Link>
+							)}
 							<Menu
 								sx={{ mt: '45px' }}
 								id="menu-appbar"
@@ -189,6 +207,9 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 										</Link>
 									</MenuItem>
 								))}
+								<MenuItem onClick={handleLogout}>
+									<Typography textAlign="center">Log Out</Typography>
+								</MenuItem>
 							</Menu>
 						</Box>
 					</div>

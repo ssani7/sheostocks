@@ -24,9 +24,14 @@ export const userReducer = createSlice({
 			state.name = action.payload.name;
 			state.profilePhoto = action.payload.profilePhoto;
 		},
+		resetUser: (state) => {
+			state.email = '';
+			state.name = '';
+			state.profilePhoto = '';
+		},
 	},
 });
 
-export const { setUser } = userReducer.actions;
+export const { setUser, resetUser } = userReducer.actions;
 
 export default userReducer.reducer;

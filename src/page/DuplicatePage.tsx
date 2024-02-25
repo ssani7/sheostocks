@@ -6,22 +6,22 @@ import { useGetProductByIDQuery } from '../redux/features/products/productsAPI';
 import { setProduct } from '../redux/features/purchase/purchaseSlice';
 import { useAppDispatch } from '../redux/hooks';
 
-const UpdateProduct = () => {
+const DuplicatePage = () => {
 	const { id } = useParams();
 	const { data, isLoading } = useGetProductByIDQuery(id);
 
 	const dispatch = useAppDispatch();
 
 	if (isLoading) return <FullScreenLoader open={isLoading} />;
-	if (data?.data) dispatch(setProduct(data.data));
+	if (data?.data) dispatch(setProduct({ ...data.data, _id: '' }));
 
 	return (
 		<div>
 			<p className="mt-6 mb-4 text-xl font-semibold">Add product</p>
 			<Divider flexItem />
-			<ProductForm isUpdate={true} />
+			<ProductForm />
 		</div>
 	);
 };
 
-export default UpdateProduct;
+export default DuplicatePage;

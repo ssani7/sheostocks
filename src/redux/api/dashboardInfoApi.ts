@@ -7,6 +7,7 @@ export const api = createApi({
 		baseUrl: import.meta.env.VITE_SERVER_URL,
 		prepareHeaders: (header) => {
 			const token = config.api_config;
+			console.log('🚀 ~ token:', token);
 			if (token) header.set('Authorization', token);
 			return header;
 		},

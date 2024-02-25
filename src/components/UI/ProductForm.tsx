@@ -28,8 +28,6 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 	const onDrop = useCallback((acceptedFiles: Array<File>) => {
 		const reader = new FileReader();
 
-		reader.onabort = () => console.log('file reading was aborted');
-		reader.onerror = () => console.log('file reading has failed');
 		reader.onload = () => {
 			const binaryStr = reader.result;
 			setPreview(binaryStr);
@@ -50,7 +48,7 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 		}
 		reset();
 		resetUpdate();
-		toast.success('Purchase made successfully');
+		toast.success(isUpdate ? 'Product updated successfully' : 'Purchase made successfully');
 		setLoadingReq(false);
 	}
 	if (isError || isUpateError) {
@@ -63,12 +61,7 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 
 	const purchaseData: any = useAppSelector((state) => state.purchase);
 
-	async function handleOnSubmit(e: React.SyntheticEvent) {
-		e.preventDefault();
-		setLoadingReq(true);
-
-		if (typeof acceptedFiles[0] === 'undefined' && !purchaseData?.image) return;
-
+	async function uploadPhoto() {
 		const formData = new FormData();
 
 		formData.append('file', acceptedFiles[0]);
@@ -80,10 +73,35 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 			body: formData,
 		}).then((r) => r.json());
 
-		dispatch(setProduct({ image: results.url }));
+		if (!results?.url) {
+			toast.error('Image upload failed. Please try reloading the page');
+			setLoadingReq(false);
+			return;
+		}
 
-		if (isUpdate) await updateProduct({ productData: { ...purchaseData, image: results.url } });
-		else await makePurchase({ purchaseData: { ...purchaseData, image: results.url } });
+		return results.url;
+	}
+
+	async function handleOnSubmit(e: React.SyntheticEvent) {
+		e.preventDefault();
+		setLoadingReq(true);
+
+		if (typeof acceptedFiles[0] === 'undefined' && !purchaseData?.image) return;
+
+		try {
+			let imageURL = purchaseData.image;
+
+			if (preview) imageURL = await uploadPhoto();
+
+			dispatch(setProduct({ image: imageURL }));
+
+			if (isUpdate) await updateProduct({ productData: { ...purchaseData, image: imageURL } });
+			else await makePurchase({ purchaseData: { ...purchaseData, image: imageURL } });
+		} catch (error) {
+			console.error(error);
+			toast.error('Something went wrong. Please try reloading the page');
+			setLoadingReq(false);
+		}
 	}
 
 	return (
@@ -119,9 +137,9 @@ const ProductForm = ({ isUpdate }: { isUpdate?: boolean }) => {
 							</div>
 						</div>
 
-						{(isUpdate || preview) && (
+						{(preview || purchaseData.image) && (
 							<div className="mt-6 h-fit w-full mx-auto p-2 rounded-lg bg-white">
-								<img className="w-full h-full object-contain my-auto rounded-lg" src={isUpdate && !preview ? purchaseData.image : (preview as string)} alt="Upload preview" />
+								<img className="w-full h-full object-contain my-auto rounded-lg" src={(preview as string) || purchaseData.image} alt="Upload preview" />
 							</div>
 						)}
 					</div>

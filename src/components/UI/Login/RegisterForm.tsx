@@ -1,7 +1,8 @@
-import { CircularProgress, Divider, OutlinedInput } from '@mui/material';
+import { Divider, OutlinedInput } from '@mui/material';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRegisterUserMutation } from '../../../redux/features/user/userAPI';
+import FullScreenLoader from '../FullScreenLoader';
 
 const RegisterForm = () => {
 	const [error, setError] = useState<string>('');
@@ -91,9 +92,10 @@ const RegisterForm = () => {
 				</p>
 
 				<button onClick={handleSignUp} className="bg-[#6366f1] text-white px-6 py-4 w-full mt-6 rounded-sm">
-					{isLoading ? <CircularProgress sx={{ color: 'white' }} size="sm" /> : 'Sign Up '}
+					Sign Up
 				</button>
 			</div>
+			<FullScreenLoader open={isLoading} />
 		</div>
 	);
 };

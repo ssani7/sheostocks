@@ -15,17 +15,17 @@ import { toast } from 'react-toastify';
 import { useDeleteBulkProductMutation, useDeleteProductMutation, useGetProductsByFilterQuery } from '../../redux/features/products/productsAPI';
 import { useAppSelector } from '../../redux/hooks';
 import { IProduct } from '../../types/Product';
+import FullScreenLoader from './FullScreenLoader';
 import FilterPopup from './Products/FilterPopup';
 
 const ProductsTable = () => {
 	const filter = useAppSelector((state) => state.productFilter);
 
-	const { data } = useGetProductsByFilterQuery(filter, { refetchOnMountOrArgChange: true, pollingInterval: 30000 });
+	const { data, isLoading: productsLoading } = useGetProductsByFilterQuery(filter, { refetchOnMountOrArgChange: true, pollingInterval: 30000 });
 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [selected, setSelected] = useState<string[]>([]);
-	console.log('🚀 ~ ProductsTable ~ selected:', selected);
 
 	const handleChangePage = (_event: unknown, newPage: number) => {
 		setPage(newPage);
@@ -77,6 +77,8 @@ const ProductsTable = () => {
 		}
 	};
 
+	if (productsLoading) return <FullScreenLoader open={productsLoading} />;
+
 	return (
 		<div>
 			<div className="w-full flex items-center justify-between">
@@ -106,36 +108,38 @@ const ProductsTable = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows?.map((row: IProduct & { _id: string }) => (
-							<TableRow hover selected={selected?.includes(row._id)} key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+						{rows?.map((product: IProduct & { _id: string }) => (
+							<TableRow hover selected={selected?.includes(product._id)} key={product._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 								<TableCell component="th" scope="row">
-									<Checkbox onChange={(e) => handleChecked(e, row._id)} sx={{ color: '#4e46dc !important' }} />
+									<Checkbox onChange={(e) => handleChecked(e, product._id)} sx={{ color: '#4e46dc !important' }} />
 								</TableCell>
 								<TableCell component="th" scope="row">
-									<img className="h-16 w-16" src={row?.image || ''} alt="" />
+									<img className="h-16 w-16" src={product?.image || ''} alt="" />
 								</TableCell>
-								<TableCell align="right">{row?.model}</TableCell>
-								<TableCell align="right">{row.brand}</TableCell>
-								<TableCell align="right">{row.price}</TableCell>
-								<TableCell align="right">{row.quantity}</TableCell>
-								<TableCell align="right">{row.style}</TableCell>
-								<TableCell align="right">{row.color}</TableCell>
-								<TableCell align="right">{row.material}</TableCell>
-								<TableCell align="right">{row.size}</TableCell>
+								<TableCell align="right">{product?.model}</TableCell>
+								<TableCell align="right">{product.brand}</TableCell>
+								<TableCell align="right">{product.price}</TableCell>
+								<TableCell align="right">{product.quantity}</TableCell>
+								<TableCell align="right">{product.style}</TableCell>
+								<TableCell align="right">{product.color}</TableCell>
+								<TableCell align="right">{product.material}</TableCell>
+								<TableCell align="right">{product.size}</TableCell>
 								<TableCell align="center">
 									<Tooltip title="Duplicate this product">
-										<IconButton aria-label="delete">
-											<DuplicateIcon color="info" />
-										</IconButton>
+										<Link to={`/products/duplicate/${product._id}`}>
+											<IconButton>
+												<DuplicateIcon color="info" />
+											</IconButton>
+										</Link>
 									</Tooltip>
 									<Tooltip title="Edit this product">
-										<Link to={`/products/update/${row._id}`}>
+										<Link to={`/products/update/${product._id}`}>
 											<IconButton aria-label="update">
 												<EditIcon color="success" />
 											</IconButton>
 										</Link>
 									</Tooltip>
-									<Tooltip onClick={() => handleProductDelete(row._id)} title="Delete this product">
+									<Tooltip onClick={() => handleProductDelete(product._id)} title="Delete this product">
 										<IconButton aria-label="delete">
 											<DeleteIcon color="error" />
 										</IconButton>

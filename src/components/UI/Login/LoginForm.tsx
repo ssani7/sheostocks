@@ -1,9 +1,10 @@
-import { CircularProgress, Divider, OutlinedInput } from '@mui/material';
+import { Divider, OutlinedInput } from '@mui/material';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useLoginUserMutation } from '../../../redux/features/user/userAPI';
 import { setUser } from '../../../redux/features/user/userSlice';
 import { useAppDispatch } from '../../../redux/hooks';
+import FullScreenLoader from '../FullScreenLoader';
 
 const LoginForm = () => {
 	const [email, setEmail] = useState<string>('');
@@ -11,7 +12,7 @@ const LoginForm = () => {
 
 	const [loginUser, { isSuccess, isLoading, isError, error, data }] = useLoginUserMutation();
 	const errorMessage = (error as any)?.data?.message || '';
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
 
@@ -19,7 +20,7 @@ const LoginForm = () => {
 		localStorage.setItem('user-email', email);
 		localStorage.setItem('user-auth', data?.data?.token);
 		dispatch(setUser(data?.data.user));
-		navigate('/');
+		window.location.href = '/';
 	}
 
 	const handleLogin = async () => {
@@ -72,9 +73,11 @@ const LoginForm = () => {
 				</p>
 
 				<button onClick={handleLogin} className="bg-[#6366f1] text-white px-6 py-4 w-full mt-6 rounded-sm">
-					{isLoading ? <CircularProgress sx={{ color: 'white' }} size="sm" /> : 'Login'}
+					Login
 				</button>
 			</div>
+
+			<FullScreenLoader open={isLoading} />
 		</div>
 	);
 };
