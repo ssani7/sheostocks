@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { useDeleteBulkProductMutation, useDeleteProductMutation, useGetProductsByFilterQuery } from '../../redux/features/products/productsAPI';
 import { useAppSelector } from '../../redux/hooks';
 import { IProduct } from '../../types/Product';
+import PathBreadcrumb from '../shared/PathBreadcrumb';
 import FullScreenLoader from './FullScreenLoader';
 import FilterPopup from './Products/FilterPopup';
 
@@ -82,10 +83,19 @@ const ProductsTable = () => {
 	return (
 		<div>
 			<div className="w-full flex items-center justify-between">
-				<FilterPopup />
-				<Button onClick={handleBulkDelete} color="error" sx={{ display: selected?.length ? 'inline-block' : 'none', textTransform: 'capitalize' }} variant="outlined">
-					Delete
-				</Button>
+				<div className="flex items-center gap-4">
+					<FilterPopup />
+					<Tooltip title="Delete Selected" placement="bottom">
+						<Button
+							onClick={handleBulkDelete}
+							color="error"
+							sx={{ display: selected?.length ? 'inline-block' : 'none', textTransform: 'capitalize', height: '100%', paddingX: 2, paddingY: 1 }}
+							variant="outlined">
+							Delete <DeleteIcon color="error" />
+						</Button>
+					</Tooltip>
+				</div>
+				<PathBreadcrumb />
 			</div>
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">

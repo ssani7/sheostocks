@@ -1,5 +1,5 @@
-import { Divider } from '@mui/material';
 import ProductForm from '../components/UI/ProductForm';
+import PageTitle from '../components/shared/PageTitle';
 import { resetProduct } from '../redux/features/purchase/purchaseSlice';
 import { useAppDispatch } from '../redux/hooks';
 
@@ -8,8 +8,7 @@ const AddProduct = () => {
 	dispatch(resetProduct());
 	return (
 		<div>
-			<p className="mt-6 mb-4 text-xl font-semibold">Add product</p>
-			<Divider flexItem />
+			<PageTitle title="Add a Product" />
 			<ProductForm />
 		</div>
 	);

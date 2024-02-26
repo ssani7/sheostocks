@@ -1,16 +1,13 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useGetProductsQuery } from '../../../redux/features/products/productsAPI';
 import ProductCard from './ProductCard';
 
-const Products = () => {
+const AllProducts = () => {
 	const { data } = useGetProductsQuery('');
 	const products = data?.data || [];
 	return (
 		<Box sx={{ marginY: '3rem' }}>
-			<Typography sx={{ marginBottom: '3rem' }} variant="h4" textAlign="center">
-				All Products
-			</Typography>
-			<div className="w-full grid grid-cols-5 gap-4">
+			<div className="w-full grid grid-cols-1 min-[540px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 				{products?.map((product: any) => (
 					<ProductCard product={product} />
 				))}
@@ -19,4 +16,4 @@ const Products = () => {
 	);
 };
 
-export default Products;
+export default AllProducts;

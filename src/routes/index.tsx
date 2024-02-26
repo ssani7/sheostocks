@@ -1,12 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { default as DashboardPages } from '../App';
+import DashboardLayout from '../layouts/DashboardLayout';
 import MainLayout from '../layouts/MainLayout';
 import AddProduct from '../page/AddProduct';
 import Dashboard from '../page/Dashboard';
 import DuplicatePage from '../page/DuplicatePage';
 import Home from '../page/Home';
 import Login from '../page/Login';
+import ProductDetails from '../page/ProductDetails';
 import Products from '../page/Products';
+import Inventory from '../page/ProductsAdmin';
 import Register from '../page/Register';
 import Sales from '../page/Sales';
 import SellProduct from '../page/SellProduct';
@@ -21,11 +23,19 @@ const router = createBrowserRouter([
 				index: true,
 				element: <Home />,
 			},
+			{
+				path: '/products',
+				element: <Products />,
+			},
+			{
+				path: '/products/:productId',
+				element: <ProductDetails />,
+			},
 		],
 	},
 	{
-		path: '/dashboard',
-		element: <DashboardPages />,
+		path: '/inventory',
+		element: <DashboardLayout />,
 		children: [
 			{
 				index: true,
@@ -33,14 +43,14 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'products',
-				element: <Products />,
+				element: <Inventory />,
 			},
 			{
-				path: 'products/add',
+				path: 'addProduct',
 				element: <AddProduct />,
 			},
 			{
-				path: 'products/sell',
+				path: 'sale',
 				element: <SellProduct />,
 			},
 			{

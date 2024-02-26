@@ -43,7 +43,7 @@ const CategorySlides = () => {
 		<div className="relative mt-5">
 			<Swiper
 				spaceBetween={20}
-				slidesPerView={2}
+				slidesPerView={1}
 				onSlideChange={() => console.log('slide change')}
 				navigation={{ nextEl: '.arrow-left', prevEl: '.arrow-right', disabledClass: 'swiper-button-disabled' }}
 				modules={[Navigation]}
@@ -67,7 +67,9 @@ const CategorySlides = () => {
 				{categories.map((category) => (
 					<SwiperSlide key={category.title}>
 						<div className="w-full">
-							<img className="w-full rounded-lg h-52 object-cover" src={category.image} alt="" />
+							<div>
+								<img className="w-full rounded-lg h-60 max-h-60 min-[540px]:h-60 object-cover" src={category.image} alt="" />
+							</div>
 							<div className="flex items-center justify-between">
 								<Typography marginTop={1} variant="body1" fontWeight={700}>
 									{category.title}

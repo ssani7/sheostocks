@@ -1,9 +1,4 @@
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import Products from '@mui/icons-material/Inventory2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
-import SalesIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -21,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks';
+import { menuOptions, productOptions, saleOptions } from '../../utils';
 
 const drawerWidth = 240;
 
@@ -28,16 +24,6 @@ interface Props {
 	children: React.ReactNode;
 	window?: () => Window;
 }
-
-const menuOptions = [{ text: 'Dashboard', link: '/', icon: <DashboardOutlinedIcon /> }];
-const productOptions = [
-	{ text: 'All Products', link: '/products', icon: <Products /> },
-	{ text: 'Add Products', link: '/products/add', icon: <AddBoxOutlinedIcon /> },
-];
-const saleOptions = [
-	{ text: 'Sales', link: '/sales', icon: <SalesIcon /> },
-	{ text: 'Make a Sale', link: '/products/sell', icon: <SellOutlinedIcon /> },
-];
 
 const settings = [
 	{ title: 'Dashboard', link: '/' },

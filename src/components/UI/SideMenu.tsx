@@ -1,13 +1,8 @@
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import Products from '@mui/icons-material/Inventory2Outlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import SalesIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -27,18 +22,9 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { resetUser } from '../../redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { menuOptions, productOptions, saleOptions } from '../../utils';
 
 const drawerWidth = 240;
-
-const menuOptions = [{ text: 'Dashboard', link: '/', icon: <DashboardOutlinedIcon /> }];
-const productOptions = [
-	{ text: 'All Products', link: '/products', icon: <Products /> },
-	{ text: 'Add Products', link: '/products/add', icon: <AddBoxOutlinedIcon /> },
-];
-const saleOptions = [
-	{ text: 'Sales', link: '/sales', icon: <SalesIcon /> },
-	{ text: 'Make a Sale', link: '/products/sell', icon: <SellOutlinedIcon /> },
-];
 
 const openedMixin = (theme: Theme): CSSObject => ({
 	width: drawerWidth,

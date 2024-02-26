@@ -26,8 +26,8 @@ const FilterPopup = () => {
 
 	return (
 		<div className="my-5">
-			<Tooltip title="Filter list" placement="right">
-				<Button onClick={handleOpen} sx={{ padding: 2, display: 'flex', gap: 2, textTransform: 'capitalize' }} variant="outlined">
+			<Tooltip title="Filter list" placement="bottom">
+				<Button onClick={handleOpen} sx={{ paddingX: 2, paddingY: 1, display: 'flex', gap: 2, textTransform: 'capitalize' }} variant="outlined">
 					Filter <FilterListIcon />
 				</Button>
 			</Tooltip>

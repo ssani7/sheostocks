@@ -21,8 +21,9 @@ const Banner = () => {
 				flexDirection: { xs: 'column', sm: 'row' },
 				alignItems: 'center',
 				justifyContent: 'space-between',
+				gap: '2rem',
 			}}>
-			<Box sx={{ maxWidth: { xs: '100%', md: '50%' }, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+			<Box sx={{ maxWidth: { xs: '100%', md: '50%' }, width: { xs: '100%', sm: '50%' }, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 				<Typography
 					sx={{
 						fontSize: {
@@ -55,7 +56,7 @@ const Banner = () => {
 					Shop Now
 				</Button>
 			</Box>
-			<img className="w-full max-w-[500px] min-[600px]:w-1/2" src={heroImage} alt="hero image for shoes" />
+			<img className="h-full w-3/4 min-[600px]:w-1/2" src={heroImage} alt="hero image for shoes" />
 		</Box>
 	);
 };

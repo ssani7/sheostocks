@@ -1,10 +1,18 @@
-import ProductsTable from '../components/UI/ProductsTable';
+import { Box, Container, Typography } from '@mui/material';
+import PathBreadcrumb from '../components/shared/PathBreadcrumb';
+import AllProducts from '../components/shared/Products/AllProducts';
 
 const Products = () => {
 	return (
-		<div className="w-full">
-			<ProductsTable />
-		</div>
+		<Container className="mt-10" maxWidth="xl">
+			<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+				<Typography variant="h5" fontWeight={700}>
+					Our Products
+				</Typography>
+				<PathBreadcrumb />
+			</Box>
+			<AllProducts />
+		</Container>
 	);
 };
 

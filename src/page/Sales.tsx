@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import moment from 'moment';
 import { useState } from 'react';
 import SalesCategory from '../components/UI/Sales/SaleCategoryDropdow';
+import PageTitle from '../components/shared/PageTitle';
 import { useGetSaleByCategoryQuery } from '../redux/api/salesAPI';
 import { ISale, SaleCategory } from '../types/sales';
 
@@ -32,7 +33,7 @@ const Sales = () => {
 
 	return (
 		<div>
-			<p>Sales</p>
+			<PageTitle title="Sales" />
 			<SalesCategory {...{ category, setCategory }} />
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -41,7 +41,12 @@ const NavBar = () => {
 					<Typography variant="h6" noWrap component="div">
 						<Link to={'/'}>ShoeStock.com</Link>
 					</Typography>
-					<Box sx={{ flexGrow: 0 }}>
+					<Box sx={{ display: 'flex', gap: '1rem', flexGrow: 0 }}>
+						<Link to={'/inventory'} className="flex items-center gap-2 cursor-pointer">
+							<Typography variant="body2" fontWeight={700}>
+								Inventory
+							</Typography>
+						</Link>
 						{email ? (
 							<div className="flex items-center gap-3">
 								<Avatar alt="" src={profilePhoto || '/user.jpg'} />

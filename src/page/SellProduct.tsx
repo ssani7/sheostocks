@@ -1,10 +1,11 @@
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Autocomplete, Button, CircularProgress, Divider, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Autocomplete, Button, CircularProgress, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
 
 import { useState } from 'react';
 // import products from '../../public/products.json';
 import SellProductTable from '../components/UI/SellProductTable';
+import PageTitle from '../components/shared/PageTitle';
 import { useMakeSaleMutation } from '../redux/api/salesAPI';
 import { useGetProductsQuery } from '../redux/features/products/productsAPI';
 import { resetSaleState, setSaleState } from '../redux/features/sale/saleSlice';
@@ -66,8 +67,7 @@ const SellProduct = () => {
 
 	return (
 		<div>
-			<p className="mt-6 mb-4 text-xl font-semibold">Create a Sale</p>
-			<Divider flexItem />
+			<PageTitle title="Make a Sale" />
 
 			<div className="mt-6 grid grid-cols-2 gap-4 xl:grid-cols-3">
 				<div>
