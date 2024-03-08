@@ -13,6 +13,8 @@ import Register from '../page/Register';
 import Sales from '../page/Sales';
 import SellProduct from '../page/SellProduct';
 import UpdateProduct from '../page/UpdateProduct';
+import Profile from '../page/Profile';
+import EditProfile from '../page/EditProfile';
 
 const router = createBrowserRouter([
 	{
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
 			{
 				path: '/products/:productId',
 				element: <ProductDetails />,
+			},
+			{
+				path: '/profile/:email',
+				element: <Profile />,
+			},
+			{
+				path: '/edit-profile',
+				element: <EditProfile />,
 			},
 		],
 	},

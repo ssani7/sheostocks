@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import heroImage from '../../assets/categories/hero_sneakers.png';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
 	return (
@@ -52,9 +53,11 @@ const Banner = () => {
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et mi viverra gravida rutrum lorem. Amet sed morbi dignissim tortor nisl. Faucibus donec et, est cras facilisis. Iaculis
 					tristique.
 				</Typography>
-				<Button sx={{ width: 'fit-content', textTransform: 'capitalize' }} variant="contained">
-					Shop Now
-				</Button>
+				<Link to="/products">
+					<Button sx={{ width: 'fit-content', textTransform: 'capitalize' }} variant="contained">
+						Shop Now
+					</Button>
+				</Link>
 			</Box>
 			<img className="h-full w-3/4 min-[600px]:w-1/2" src={heroImage} alt="hero image for shoes" />
 		</Box>

@@ -15,7 +15,7 @@ export default function ProductCard({ product }: ProductProps) {
 		<Card className="group" sx={{ height: '100%', bgcolor: 'transparent', boxShadow: 'none', borderRadius: '0.5rem' }}>
 			<CardActionArea>
 				<Link to={`/products/${product._id}`}>
-					<CardMedia className="rounded-lg group-hover:rounded-b-none" sx={{ width: '100%' }} component="img" width="30rem" image={product.image} alt="green iguana" />
+					<CardMedia className="rounded-lg group-hover:rounded-b-none" sx={{ width: '100%' }} component="img" image={product.image} alt="green iguana" />
 				</Link>
 			</CardActionArea>
 			<CardContent sx={{ bgcolor: 'transparent' }}>

@@ -1,5 +1,5 @@
 import PersonIcon from '@mui/icons-material/Person';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+// import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { AppBar, Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +10,10 @@ import { Link } from 'react-router-dom';
 import { resetUser } from '../../../redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
-const settings = [{ title: 'Dashboard', link: '/' }];
+const settings = [
+	{ title: 'Home', link: '/' },
+	{ title: 'Edit Profile', link: '/edit-profile' },
+];
 
 const NavBar = () => {
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -49,15 +52,10 @@ const NavBar = () => {
 						</Link>
 						{email ? (
 							<div className="flex items-center gap-3">
-								<Avatar alt="" src={profilePhoto || '/user.jpg'} />
-
-								<div>
-									<p className="font-bold">{name || 'Anonymous User'}</p>
-									<p className="text-sm">Admin</p>
-								</div>
 								<Tooltip title="Open settings">
 									<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-										<SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" />
+										{/* <SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" /> */}
+										<Avatar alt="" src={profilePhoto || '/user.jpg'} />
 									</IconButton>
 								</Tooltip>
 							</div>
@@ -83,7 +81,18 @@ const NavBar = () => {
 								horizontal: 'right',
 							}}
 							open={Boolean(anchorElUser)}
+							onClick={handleCloseUserMenu}
 							onClose={handleCloseUserMenu}>
+							<MenuItem sx={{ paddingY: 2 }}>
+								<Link className="flex gap-3 items-center" to={`/profile/${email}`}>
+									<Avatar alt="" src={profilePhoto || '/user.jpg'} />
+
+									<div>
+										<p className="font-bold">{name || 'Anonymous User'}</p>
+										<p className="text-sm">Admin</p>
+									</div>
+								</Link>
+							</MenuItem>
 							{settings.map((setting) => (
 								<MenuItem key={setting.title} onClick={handleCloseUserMenu}>
 									<Link to={setting.link}>

@@ -9,7 +9,7 @@ const ProductDetails = () => {
 
 	const { data } = useGetProductByIDQuery(productId);
 	const product = data?.data || {};
-	console.log('🚀 ~ ProductDetails ~ data:', product);
+
 	return (
 		<div>
 			<Container sx={{ paddingY: '1rem' }} maxWidth="xl">

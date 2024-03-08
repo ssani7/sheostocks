@@ -4,8 +4,11 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 interface CounterState {
 	email: string;
 	password: string;
-	name: string;
-	profilePhoto: string;
+	profilePhoto?: string;
+	name?: string;
+	address?: string;
+	city?: string;
+	phone?: string;
 }
 
 const initialState: CounterState = {
@@ -13,6 +16,9 @@ const initialState: CounterState = {
 	password: '',
 	name: '',
 	profilePhoto: '',
+	address: '',
+	city: '',
+	phone: '',
 };
 
 export const userReducer = createSlice({
@@ -23,11 +29,16 @@ export const userReducer = createSlice({
 			state.email = action.payload.email;
 			state.name = action.payload.name;
 			state.profilePhoto = action.payload.profilePhoto;
+			state.address = action.payload.address;
+			state.city = action.payload.city;
+			state.phone = action.payload.phone;
 		},
 		resetUser: (state) => {
 			state.email = '';
 			state.name = '';
 			state.profilePhoto = '';
+			state.address = '';
+			state.phone = '';
 		},
 	},
 });

@@ -57,7 +57,7 @@ export default function RecentSalesTable() {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row: any) => {
+						{rows.map((row: any, i: number) => {
 							return (
 								<TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
 									<TableCell className={`!text-gray-400`} align="left">
@@ -75,9 +75,9 @@ export default function RecentSalesTable() {
 									<TableCell className={`!text-gray-400`} align="left">
 										{row?.date && moment(row.date).format('MMM DD, yyyy')}
 									</TableCell>
-									<TableCell className={`!text-gray-400`} align="left">
-										<Button variant="outlined" color="success" size="small">
-											Done
+									<TableCell className={`!text-gray-400`} align="center">
+										<Button variant="outlined" color={i == 3 ? 'error' : 'success'} size="small">
+											{i == 3 ? 'Canceled' : 'Done'}
 										</Button>
 									</TableCell>
 								</TableRow>

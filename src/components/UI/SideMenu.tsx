@@ -2,7 +2,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -151,15 +150,10 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 						<Box sx={{ flexGrow: 0 }}>
 							{email ? (
 								<div className="flex items-center gap-3">
-									<Avatar alt="" src={profilePhoto || '/user.jpg'} />
-
-									<div>
-										<p className="font-bold">{name || 'Anonymous User'}</p>
-										<p className="text-sm">Admin</p>
-									</div>
 									<Tooltip title="Open settings">
 										<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-											<SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" />
+											{/* <SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" /> */}
+											<Avatar alt="" src={profilePhoto || '/user.jpg'} />
 										</IconButton>
 									</Tooltip>
 								</div>
@@ -185,7 +179,18 @@ export default function MiniDrawer({ children }: { children: React.ReactNode }) 
 									horizontal: 'right',
 								}}
 								open={Boolean(anchorElUser)}
+								onClick={handleCloseUserMenu}
 								onClose={handleCloseUserMenu}>
+								<MenuItem sx={{ paddingY: 2 }}>
+									<Link className="flex gap-3 items-center" to={`/profile/${email}`}>
+										<Avatar alt="" src={profilePhoto || '/user.jpg'} />
+
+										<div>
+											<p className="font-bold">{name || 'Anonymous User'}</p>
+											<p className="text-sm">Admin</p>
+										</div>
+									</Link>
+								</MenuItem>
 								{settings.map((setting) => (
 									<MenuItem key={setting.title} onClick={handleCloseUserMenu}>
 										<Link to={setting.link}>
