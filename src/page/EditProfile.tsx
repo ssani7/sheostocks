@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import CloudUpload from '@mui/icons-material/CloudUploadOutlined';
 import { Backdrop, Button, CircularProgress, Container, OutlinedInput } from '@mui/material';
 import { useCallback, useState } from 'react';
@@ -18,7 +19,6 @@ const EditProfile = ({ isUpdate }: { isUpdate?: boolean }) => {
 		reader.readAsDataURL(acceptedFiles[0]);
 	}, []);
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({ onDrop });
 
 	// const dispatch = useAppDispatch();
