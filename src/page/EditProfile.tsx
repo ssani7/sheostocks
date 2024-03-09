@@ -19,7 +19,8 @@ const EditProfile = ({ isUpdate }: { isUpdate?: boolean }) => {
 		reader.readAsDataURL(acceptedFiles[0]);
 	}, []);
 
-	const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({ onDrop });
+	// const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({ onDrop });
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	// const dispatch = useAppDispatch();
 
