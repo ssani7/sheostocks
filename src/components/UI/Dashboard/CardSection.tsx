@@ -18,9 +18,9 @@ const CardSection = () => {
 	return (
 		<div className="w-full">
 			{isLoading ? (
-				<div className="grid grid-cols-2 gap-6 xl:grid-cols-4 pt-2">
-					{[1, 2, 3, 4].map(() => (
-						<Card className="flex items-center justify-between px-5 py-3 lg:min-w-72 h-28 w-full !shadow-sm">
+				<div className="grid grid-cols-2 gap-6 md:grid-cols-4 pt-2">
+					{[1, 2, 3, 4].map((v) => (
+						<Card key={v} className="flex items-center justify-between px-5 py-3 lg:min-w-72 h-28 w-full !shadow-sm">
 							<Skeleton variant="circular" width={50} height={50} />
 							<CardContent className="w-full flex flex-col items-end text-end">
 								<Skeleton animation="wave" height={10} width="80%" style={{ marginBottom: 6 }} />
@@ -30,7 +30,7 @@ const CardSection = () => {
 					))}
 				</div>
 			) : (
-				<div className="grid grid-cols-1 gap-6 xl:grid-cols-4 pt-2">
+				<div className="grid sm:grid-cols-2 gap-6 min-[1024px]:grid-cols-4 pt-2">
 					<InfoCard icon={<SalesIcon htmlColor="#6466e9" className="!text-5xl" />} title="Sales" value={totalSale || 0} />
 					<InfoCard icon={<PurchaseIcon htmlColor="#6466e9" className="!text-5xl" />} title="Purchase" value={totalPurchase || 0} />
 					<InfoCard icon={<ProfitIcon htmlColor="#6466e9" className="!text-5xl" />} title="Profit this month" value={profit || 0} />

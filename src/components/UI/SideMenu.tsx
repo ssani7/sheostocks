@@ -1,9 +1,6 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MenuIcon from '@mui/icons-material/Menu';
-import PersonIcon from '@mui/icons-material/Person';
-import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
@@ -14,14 +11,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { resetUser } from '../../redux/features/user/userSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { menuOptions, productOptions, saleOptions } from '../../utils';
+import CustomAppBar from '../shared/Navbar/CustomAppBar';
 
 const drawerWidth = 240;
 
@@ -55,28 +49,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	...theme.mixins.toolbar,
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-	open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-	shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-	zIndex: theme.zIndex.drawer + 1,
-	transition: theme.transitions.create(['width', 'margin'], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
-	...(open && {
-		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	}),
-}));
-
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
 	width: drawerWidth,
 	flexShrink: 0,
@@ -92,120 +64,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 	}),
 }));
 
-const settings = [{ title: 'Dashboard', link: '/' }];
-
 export default function MiniDrawer({ children }: { children: React.ReactNode }) {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
-	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
-	const { profilePhoto, name, email } = useAppSelector((state) => state.user);
-
-	const dispatch = useAppDispatch();
-
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
 
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
 
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElUser(event.currentTarget);
-	};
-
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
-	};
-
-	const handleLogout = () => {
-		handleCloseUserMenu();
-		localStorage.removeItem('user-auth');
-		localStorage.removeItem('user-email');
-		dispatch(resetUser());
-		window.location.href = '/';
-	};
-
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
-			<AppBar className="!shadow-md" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 0' }} position="fixed" open={open}>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-						sx={{
-							marginRight: 5,
-							...(open && { display: 'none' }),
-						}}>
-						<MenuIcon />
-					</IconButton>
-					<div className="flex items-center justify-between w-full">
-						<Typography variant="h6" noWrap component="div">
-							<Link to={'/'}>ShoeStock.com</Link>
-						</Typography>
-						<Box sx={{ flexGrow: 0 }}>
-							{email ? (
-								<div className="flex items-center gap-3">
-									<Tooltip title="Open settings">
-										<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-											{/* <SettingsRoundedIcon className="bg-[#6466e9] text-white p-2 rounded-lg !h-10 !w-10 ml-3" /> */}
-											<Avatar alt="" src={profilePhoto || '/user.jpg'} />
-										</IconButton>
-									</Tooltip>
-								</div>
-							) : (
-								<Link to={'/login'} className="flex items-center gap-2 cursor-pointer">
-									<PersonIcon />
-									<Typography variant="body2" fontWeight={700}>
-										Sign in
-									</Typography>
-								</Link>
-							)}
-							<Menu
-								sx={{ mt: '45px' }}
-								id="menu-appbar"
-								anchorEl={anchorElUser}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={Boolean(anchorElUser)}
-								onClick={handleCloseUserMenu}
-								onClose={handleCloseUserMenu}>
-								<MenuItem sx={{ paddingY: 2 }}>
-									<Link className="flex gap-3 items-center" to={`/profile/${email}`}>
-										<Avatar alt="" src={profilePhoto || '/user.jpg'} />
-
-										<div>
-											<p className="font-bold">{name || 'Anonymous User'}</p>
-											<p className="text-sm">Admin</p>
-										</div>
-									</Link>
-								</MenuItem>
-								{settings.map((setting) => (
-									<MenuItem key={setting.title} onClick={handleCloseUserMenu}>
-										<Link to={setting.link}>
-											<Typography textAlign="center">{setting.title}</Typography>
-										</Link>
-									</MenuItem>
-								))}
-								<MenuItem onClick={handleLogout}>
-									<Typography textAlign="center">Log Out</Typography>
-								</MenuItem>
-							</Menu>
-						</Box>
-					</div>
-				</Toolbar>
-			</AppBar>
+			<CustomAppBar isDasboard={true} open={open} setOpen={setOpen} />
 			<Drawer variant="permanent" open={open}>
 				<DrawerHeader className="!min-h-[80px]">
 					<IconButton onClick={handleDrawerClose}>{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>

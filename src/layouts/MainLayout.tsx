@@ -1,11 +1,12 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import NavBar from '../components/shared/Navbar/NavBar';
+// import NavBar from '../components/shared/Navbar/NavBar';
 import { useGetUserInfoQuery } from '../redux/features/user/userAPI';
 import { setUser } from '../redux/features/user/userSlice';
 import { useAppDispatch } from '../redux/hooks';
 import { useEffect } from 'react';
+import CustomAppBar from '../components/shared/Navbar/CustomAppBar';
 
 const MainLayout = () => {
 	const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ const MainLayout = () => {
 
 	return (
 		<div>
-			<NavBar />
+			<CustomAppBar />
 			<Outlet />
 			<ToastContainer position="bottom-right" closeOnClick />
 		</div>

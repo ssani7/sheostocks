@@ -53,7 +53,7 @@ const Dashboard = () => {
 	return (
 		<div className="w-full">
 			<CardSection />
-			<div className="flex flex-col xl:flex-row gap-5 w-full mt-6">
+			<div className="flex flex-col lg:flex-row gap-5 w-full mt-6">
 				<div className="w-full xl:w-[40%] bg-white p-7 rounded-lg shadow-sm">
 					<p className="text-xl font-semibold">Top Selling Products</p>
 					<PieChartContainer />

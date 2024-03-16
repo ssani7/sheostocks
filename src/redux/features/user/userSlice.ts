@@ -9,6 +9,8 @@ interface CounterState {
 	address?: string;
 	city?: string;
 	phone?: string;
+	isAdmin?: boolean;
+	loadingUser?: boolean;
 }
 
 const initialState: CounterState = {
@@ -19,6 +21,8 @@ const initialState: CounterState = {
 	address: '',
 	city: '',
 	phone: '',
+	isAdmin: false,
+	loadingUser: false,
 };
 
 export const userReducer = createSlice({
@@ -32,6 +36,8 @@ export const userReducer = createSlice({
 			state.address = action.payload.address;
 			state.city = action.payload.city;
 			state.phone = action.payload.phone;
+			state.isAdmin = action.payload.isAdmin;
+			state.loadingUser = false;
 		},
 		resetUser: (state) => {
 			state.email = '';
@@ -39,10 +45,15 @@ export const userReducer = createSlice({
 			state.profilePhoto = '';
 			state.address = '';
 			state.phone = '';
+			state.isAdmin = false;
+			state.loadingUser = false;
+		},
+		setLoadingUser: (state, action: PayloadAction<boolean>) => {
+			state.loadingUser = action.payload;
 		},
 	},
 });
 
-export const { setUser, resetUser } = userReducer.actions;
+export const { setUser, resetUser, setLoadingUser } = userReducer.actions;
 
 export default userReducer.reducer;

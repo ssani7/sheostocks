@@ -31,6 +31,18 @@ const LoginForm = () => {
 			console.log(error);
 		}
 	};
+
+	const setAdminCredentials = () => {
+		setEmail('admin@gmail.com');
+		setPassword('123456');
+		handleLogin();
+	};
+
+	const setUserCredentials = () => {
+		setEmail('user@gmail.com');
+		setPassword('123456');
+		handleLogin();
+	};
 	return (
 		<div className="lg:w-1/2 bg-white px-10">
 			<p className="text-2xl font-medium py-6 text-center">ShoeStocks.com</p>
@@ -72,9 +84,18 @@ const LoginForm = () => {
 					</Link>
 				</p>
 
-				<button onClick={handleLogin} className="bg-[#6366f1] text-white px-6 py-4 w-full mt-6 rounded-sm">
+				<button onClick={handleLogin} className="primary-btn w-full mt-6">
 					Login
 				</button>
+
+				<div className="flex items-center mt-6 justify-center gap-5">
+					<button onClick={setAdminCredentials} className="primary-btn w-full">
+						Login as Admin
+					</button>
+					<button onClick={setUserCredentials} className="primary-btn w-full">
+						Login as User
+					</button>
+				</div>
 			</div>
 
 			<FullScreenLoader open={isLoading} />

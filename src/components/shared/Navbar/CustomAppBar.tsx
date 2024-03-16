@@ -1,25 +1,64 @@
+import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-// import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import { AppBar, Avatar, Menu, MenuItem, Skeleton, Tooltip } from '@mui/material';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import { Avatar, Box, IconButton, Menu, MenuItem, Skeleton, Tooltip, useMediaQuery } from '@mui/material';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { resetUser } from '../../../redux/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { resetUser } from '../../../redux/features/user/userSlice';
+import { Link } from 'react-router-dom';
 
-const settings = [
-	{ title: 'Home', link: '/' },
-	{ title: 'Edit Profile', link: '/edit-profile' },
-];
+interface AppBarProps extends MuiAppBarProps {
+	open?: boolean;
+}
 
-const NavBar = () => {
+const drawerWidth = 240;
+
+const settings = [{ title: 'Dashboard', link: '/' }];
+
+type CustomAppBarProps = {
+	open?: boolean;
+	setOpen?: (_open: boolean) => void;
+	isDasboard?: boolean;
+};
+
+const AppBar = styled(MuiAppBar, {
+	shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+	zIndex: theme.zIndex.drawer + 1,
+	transition: theme.transitions.create(['width', 'margin'], {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+	}),
+	...(open && {
+		marginLeft: drawerWidth,
+		width: '100%',
+		[theme.breakpoints.up('lg')]: {
+			width: `calc(100% - ${drawerWidth}px)`,
+		},
+		transition: theme.transitions.create(['width', 'margin'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+	}),
+}));
+
+const CustomAppBar = ({ setOpen, open, isDasboard }: CustomAppBarProps) => {
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
 	const { profilePhoto, name, email, isAdmin, loadingUser } = useAppSelector((state) => state.user);
+
 	const dispatch = useAppDispatch();
+
+	const toggleDrawer = () => {
+		setOpen?.(!open);
+	};
+
+	// const handleDrawerClose = () => {
+	// 	setOpen?.(false);
+	// };
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
@@ -37,14 +76,29 @@ const NavBar = () => {
 		window.location.href = '/';
 	};
 
+	const ismobile = useMediaQuery('(max-width:1280px)');
+
 	return (
-		<AppBar className="!shadow-md" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 0' }} position="sticky">
+		<AppBar className="!shadow-md" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 0' }} position="fixed" open={open}>
 			<Toolbar>
+				{isDasboard && (
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						onClick={toggleDrawer}
+						edge="start"
+						sx={{
+							marginRight: 5,
+							...(open && !ismobile && { display: 'none' }),
+						}}>
+						<MenuIcon />
+					</IconButton>
+				)}
 				<div className="flex items-center justify-between w-full">
 					<Typography variant="h6" noWrap component="div">
 						<Link to={'/'}>ShoeStock.com</Link>
 					</Typography>
-					<Box sx={{ display: 'flex', gap: '1rem', flexGrow: 0 }}>
+					<Box sx={{ display: 'flex', gap: '1.5rem', flexGrow: 0 }}>
 						{isAdmin && (
 							<Link to={'/inventory'} className="flex items-center gap-2 cursor-pointer">
 								<Typography variant="body2" fontWeight={700}>
@@ -98,7 +152,7 @@ const NavBar = () => {
 
 									<div>
 										<p className="font-bold">{name || 'Anonymous User'}</p>
-										{isAdmin && <p className="text-sm">Admin</p>}
+										<p className="text-sm">Admin</p>
 									</div>
 								</Link>
 							</MenuItem>
@@ -120,4 +174,4 @@ const NavBar = () => {
 	);
 };
 
-export default NavBar;
+export default CustomAppBar;

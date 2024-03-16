@@ -10,8 +10,8 @@ const Banner = () => {
 				borderRadius: '0.5rem',
 				paddingX: {
 					xs: '1rem',
-					sm: '3rem',
-					md: '5rem',
+					sm: '2rem',
+					md: '4rem',
 				},
 				paddingY: {
 					xs: '2rem',
@@ -23,15 +23,16 @@ const Banner = () => {
 				alignItems: 'center',
 				justifyContent: 'space-between',
 				gap: '2rem',
+				position: 'relative',
 			}}>
 			<Box sx={{ maxWidth: { xs: '100%', md: '50%' }, width: { xs: '100%', sm: '50%' }, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 				<Typography
 					sx={{
 						fontSize: {
 							xs: '1.75rem',
-							sm: '2rem',
-							md: '3rem',
-							lg: '3.75rem',
+							// sm: '2rem',
+							md: '2.5rem',
+							lg: '3rem',
 						},
 					}}
 					className="title"
@@ -50,16 +51,30 @@ const Banner = () => {
 					lineHeight={1.6}
 					color="white"
 					fontWeight={100}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et mi viverra gravida rutrum lorem. Amet sed morbi dignissim tortor nisl. Faucibus donec et, est cras facilisis. Iaculis
-					tristique.
+					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ut sint necessitatibus natus ducimus harum rerum veniam sit aliquam accusamus ipsam, cupiditate nisi quibusdam
+					voluptas sequi cum cumque animi repellat!
 				</Typography>
 				<Link to="/products">
-					<Button sx={{ width: 'fit-content', textTransform: 'capitalize' }} variant="contained">
+					<Button
+						sx={{
+							width: 'fit-content',
+							textTransform: 'capitalize',
+							paddingY: {
+								xs: '0.5rem',
+								xl: 1.8,
+							},
+							paddingX: {
+								xs: 3,
+								xl: 5,
+							},
+							fontWeight: 700,
+						}}
+						variant="contained">
 						Shop Now
 					</Button>
 				</Link>
 			</Box>
-			<img className="h-full w-3/4 min-[600px]:w-1/2" src={heroImage} alt="hero image for shoes" />
+			<img className="h-full min-[600px]:w-auto md:w-2/5 max-h-[200px] md:max-h-[500px] object-contain" src={heroImage} alt="hero image for shoes" />
 		</Box>
 	);
 };
