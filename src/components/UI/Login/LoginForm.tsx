@@ -32,16 +32,20 @@ const LoginForm = () => {
 		}
 	};
 
-	const setAdminCredentials = () => {
+	const setAdminCredentials = async () => {
 		setEmail('admin@gmail.com');
 		setPassword('123456');
-		handleLogin();
+
+		const userData = { email: 'admin@gmail.com', password: '123456' };
+		await loginUser({ userData });
 	};
 
-	const setUserCredentials = () => {
+	const setUserCredentials = async () => {
 		setEmail('user@gmail.com');
 		setPassword('123456');
-		handleLogin();
+
+		const userData = { email: 'user@gmail.com', password: '123456' };
+		await loginUser({ userData });
 	};
 	return (
 		<div className="lg:w-1/2 bg-white px-10">

@@ -79,7 +79,7 @@ const CustomAppBar = ({ setOpen, open, isDasboard }: CustomAppBarProps) => {
 	const ismobile = useMediaQuery('(max-width:1280px)');
 
 	return (
-		<AppBar className="!shadow-md" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 0' }} position="fixed" open={open}>
+		<AppBar className="" sx={{ bgcolor: 'white', color: 'black', padding: '.5rem 0', boxShadow: 'none' }} position="fixed" open={open}>
 			<Toolbar>
 				{isDasboard && (
 					<IconButton

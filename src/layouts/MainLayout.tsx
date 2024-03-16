@@ -30,7 +30,9 @@ const MainLayout = () => {
 	return (
 		<div>
 			<CustomAppBar />
-			<Outlet />
+			<div className="pt-20">
+				<Outlet />
+			</div>
 			<ToastContainer position="bottom-right" closeOnClick />
 		</div>
 	);
