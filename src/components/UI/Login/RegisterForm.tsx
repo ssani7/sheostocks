@@ -31,7 +31,7 @@ const RegisterForm = () => {
 	};
 
 	return (
-		<div className="w-[90%] lg:w-1/2 bg-white px-10">
+		<div className="w-1/2 lg:w-3/4 bg-white px-10">
 			<p className="text-2xl font-medium py-6 text-center">ShoeStocks.com</p>
 			<Divider />
 			<div className="pb-10">

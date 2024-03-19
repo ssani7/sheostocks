@@ -18,10 +18,16 @@ export default function ProductCard({ product }: ProductProps) {
 	const navigate = useNavigate();
 
 	return (
-		<Card className="group" sx={{ height: '100%', bgcolor: 'transparent', boxShadow: 'none', borderRadius: '0.5rem' }}>
-			<CardActionArea>
+		<Card className="group cursor-pointer" sx={{ height: '100%', bgcolor: 'transparent', boxShadow: 'none', borderRadius: '0.5rem' }}>
+			<CardActionArea sx={{ overflow: 'hidden' }}>
 				<Link to={`/products/${product._id}`}>
-					<CardMedia className="rounded-lg group-hover:rounded-b-none" sx={{ width: '100%' }} component="img" image={product.image} alt="green iguana" />
+					<CardMedia
+						className="rounded-lg group-hover:rounded-b-none group-hover:scale-110 transition-all duration-300"
+						sx={{ width: '100%' }}
+						component="img"
+						image={product.image}
+						alt="green iguana"
+					/>
 				</Link>
 			</CardActionArea>
 			<CardContent sx={{ bgcolor: 'transparent' }}>

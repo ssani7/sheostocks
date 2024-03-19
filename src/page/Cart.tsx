@@ -37,7 +37,7 @@ const Cart = () => {
 						</Typography>
 					</Container>
 				) : (
-					<TableContainer sx={{ maxHeight: 440 }}>
+					<TableContainer sx={{ maxHeight: 480 }}>
 						<Table sx={{ minWidth: 650 }} stickyHeader aria-label="simple table">
 							<TableHead>
 								<TableRow>
@@ -113,7 +113,7 @@ const Cart = () => {
 								Current Total :
 							</Typography>
 							<Typography sx={{ fontSize: 14 }} gutterBottom>
-								{subTotal}
+								{subTotal.toFixed(2)}
 							</Typography>
 						</div>
 						<div className="flex items-center justify-between">

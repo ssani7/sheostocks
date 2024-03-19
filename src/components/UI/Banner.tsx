@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import heroImage from '../../assets/categories/hero_sneakers.png';
 import { Link } from 'react-router-dom';
 
@@ -55,7 +55,7 @@ const Banner = () => {
 					voluptas sequi cum cumque animi repellat!
 				</Typography>
 				<Link to="/products">
-					<Button
+					{/* <Button
 						sx={{
 							width: 'fit-content',
 							textTransform: 'capitalize',
@@ -71,7 +71,8 @@ const Banner = () => {
 						}}
 						variant="contained">
 						Shop Now
-					</Button>
+					</Button> */}
+					<button className="primary-btn">Shop Now</button>
 				</Link>
 			</Box>
 			<img className="h-full min-[600px]:w-auto md:w-2/5 max-h-[200px] md:max-h-[500px] object-contain" src={heroImage} alt="hero image for shoes" />

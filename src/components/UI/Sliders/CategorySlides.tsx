@@ -10,31 +10,38 @@ import formal from '../../../assets/categories/formal_shoes.jpg';
 import jogging from '../../../assets/categories/jogging.jpg';
 import leather from '../../../assets/categories/leather.jpg';
 import sports from '../../../assets/categories/sports.jpg';
+import { Link } from 'react-router-dom';
 
 const categories = [
 	{
 		image: casual,
 		title: 'Casual',
+		link: 'casual',
 	},
 	{
 		image: sports,
 		title: 'Sports',
+		link: 'sports',
 	},
 	{
 		image: jogging,
 		title: 'Work Out',
+		link: 'sports',
 	},
 	{
 		image: formal,
 		title: 'Formal',
+		link: 'formal',
 	},
 	{
 		image: converse,
 		title: 'Converse',
+		link: 'converse',
 	},
 	{
 		image: leather,
 		title: 'Leather',
+		link: 'leather',
 	},
 ];
 
@@ -66,19 +73,21 @@ const CategorySlides = () => {
 				}}>
 				{categories.map((category) => (
 					<SwiperSlide key={category.title}>
-						<div className="w-full">
-							<div>
-								<img className="w-full rounded-lg h-60 max-h-60 min-[540px]:h-60 object-cover" src={category.image} alt="" />
+						<Link to={`/products?category=${category.link}`}>
+							<div className="w-full">
+								<div>
+									<img className="w-full rounded-lg h-60 max-h-60 min-[540px]:h-60 object-cover" src={category.image} alt="" />
+								</div>
+								<div className="flex items-center justify-between">
+									<Typography marginTop={1} variant="body1" fontWeight={700}>
+										{category.title}
+									</Typography>
+									<Typography marginTop={1} variant="body1" className="opacity-60" fontWeight={100}>
+										(26 items)
+									</Typography>
+								</div>
 							</div>
-							<div className="flex items-center justify-between">
-								<Typography marginTop={1} variant="body1" fontWeight={700}>
-									{category.title}
-								</Typography>
-								<Typography marginTop={1} variant="body1" className="opacity-60" fontWeight={100}>
-									(26 items)
-								</Typography>
-							</div>
-						</div>
+						</Link>
 					</SwiperSlide>
 				))}
 			</Swiper>

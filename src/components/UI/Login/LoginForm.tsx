@@ -48,7 +48,7 @@ const LoginForm = () => {
 		await loginUser({ userData });
 	};
 	return (
-		<div className="lg:w-1/2 bg-white px-10">
+		<div className="w-1/2 lg:w-3/4 bg-white px-10">
 			<p className="text-2xl font-medium py-6 text-center">ShoeStocks.com</p>
 			<Divider />
 			<div className="pb-10">
@@ -92,7 +92,7 @@ const LoginForm = () => {
 					Login
 				</button>
 
-				<div className="flex items-center mt-6 justify-center gap-5">
+				<div className="flex flex-col md:flex-row items-center mt-6 justify-center gap-5">
 					<button onClick={setAdminCredentials} className="primary-btn w-full">
 						Login as Admin
 					</button>
