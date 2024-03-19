@@ -1,6 +1,6 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import { Avatar, Box, IconButton, Menu, MenuItem, Skeleton, Tooltip, useMediaQuery } from '@mui/material';
+import { Avatar, Badge, Box, IconButton, Menu, MenuItem, Skeleton, Tooltip, useMediaQuery } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { resetUser } from '../../../redux/features/user/userSlice';
 import { Link } from 'react-router-dom';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 interface AppBarProps extends MuiAppBarProps {
 	open?: boolean;
@@ -76,6 +77,11 @@ const CustomAppBar = ({ setOpen, open, isDasboard }: CustomAppBarProps) => {
 		window.location.href = '/';
 	};
 
+	const { products } = useAppSelector((state) => state.cart);
+	const productCount = products.reduce((total, product) => {
+		return total + product.quantity;
+	}, 0);
+
 	const ismobile = useMediaQuery('(max-width:1280px)');
 
 	return (
@@ -99,6 +105,13 @@ const CustomAppBar = ({ setOpen, open, isDasboard }: CustomAppBarProps) => {
 						<Link to={'/'}>ShoeStock.com</Link>
 					</Typography>
 					<Box sx={{ display: 'flex', gap: '1.5rem', flexGrow: 0 }}>
+						<Link to="/cart">
+							<IconButton>
+								<Badge badgeContent={productCount} color="primary">
+									<ShoppingCartOutlinedIcon />
+								</Badge>
+							</IconButton>
+						</Link>
 						{isAdmin && (
 							<Link to={'/inventory'} className="flex items-center gap-2 cursor-pointer">
 								<Typography variant="body2" fontWeight={700}>

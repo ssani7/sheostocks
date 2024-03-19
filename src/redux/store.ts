@@ -4,10 +4,12 @@ import userReducer from './features/user/userSlice';
 import saleReducer from './features/sale/saleSlice';
 import purchaseSlice from './features/purchase/purchaseSlice';
 import productFilterSlice from './features/products/productFilter';
+import cartSlice from './features/cart/cartSlice';
 
 export const store = configureStore({
 	reducer: {
 		user: userReducer,
+		cart: cartSlice,
 		sale: saleReducer,
 		purchase: purchaseSlice,
 		productFilter: productFilterSlice,

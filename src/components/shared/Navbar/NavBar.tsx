@@ -19,6 +19,7 @@ const NavBar = () => {
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
 	const { profilePhoto, name, email, isAdmin, loadingUser } = useAppSelector((state) => state.user);
+
 	const dispatch = useAppDispatch();
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {

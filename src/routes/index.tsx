@@ -15,6 +15,7 @@ import SellProduct from '../page/SellProduct';
 import UpdateProduct from '../page/UpdateProduct';
 import Profile from '../page/Profile';
 import EditProfile from '../page/EditProfile';
+import Cart from '../page/Cart';
 
 const router = createBrowserRouter([
 	{
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
 			{
 				index: true,
 				element: <Home />,
+			},
+			{
+				path: '/cart',
+				element: <Cart />,
 			},
 			{
 				path: '/products',

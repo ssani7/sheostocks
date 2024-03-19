@@ -1,16 +1,22 @@
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { CardActionArea, IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { addToCart } from '../../../redux/features/cart/cartSlice';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 type ProductProps = {
 	product: any;
 };
 
 export default function ProductCard({ product }: ProductProps) {
+	const dispatch = useAppDispatch();
+	const { email } = useAppSelector((state) => state.user);
+	const navigate = useNavigate();
+
 	return (
 		<Card className="group" sx={{ height: '100%', bgcolor: 'transparent', boxShadow: 'none', borderRadius: '0.5rem' }}>
 			<CardActionArea>
@@ -33,8 +39,10 @@ export default function ProductCard({ product }: ProductProps) {
 					<IconButton
 						onClick={(e) => {
 							e.stopPropagation();
+							if (!email) navigate('/login');
+							else dispatch(addToCart(product));
 						}}>
-						<ShoppingCartOutlinedIcon />
+						<AddShoppingCartIcon />
 					</IconButton>
 				</div>
 			</CardContent>
